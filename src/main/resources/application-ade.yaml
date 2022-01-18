@@ -14,4 +14,4 @@ logging:
     com.dimata.service.general.billing : DEBUG
 
 server:
-  port: 8034
+  port: 8035  
