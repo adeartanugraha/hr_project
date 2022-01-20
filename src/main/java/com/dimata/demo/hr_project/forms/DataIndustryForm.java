@@ -1,0 +1,36 @@
+package com.dimata.demo.hr_project.forms;
+
+import java.time.LocalDate;
+
+import com.dimata.demo.hr_project.core.api.RecordAdapter;
+import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
+import com.dimata.demo.hr_project.enums.WorkStatus;
+import com.dimata.demo.hr_project.models.table.DataIndustry;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class DataIndustryForm implements RecordAdapter<DataIndustry> {
+
+    private Long id;
+    private String nameIndustry;
+    private WorkStatus status;
+    @JsonDeserialize(converter = DateDeserialize.class)
+    @Override
+    public DataIndustry convertNewRecord() {
+        return DataIndustry.Builder.createNewRecord(nameIndustry, status)
+            .id(id)
+            .build();
+    }
+    @Override
+    public DataIndustry convertToRecord() {
+        return DataIndustry.Builder.emptyBuilder()
+            .nameIndustry(nameIndustry)
+            .status(status)
+            .id(id)
+            .build();
+    }
+}
