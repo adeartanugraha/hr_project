@@ -25,12 +25,12 @@ public enum WorkStatus {
         this.code = code;
     }
 
-    public String parseStatus(WorkStatus status){
-        if (status == WorkStatus.WFO) {
-            return "WFO";
-        }
-        return "WFH";
-    }
+    // public String parseStatus(WorkStatus status){
+    //     if (status == WorkStatus.WFO) {
+    //         return "WFO";
+    //     }
+    //     return "WFH";
+    // }
 
     public String parseStatus(int code) {
         if (getStatus(code) == WorkStatus.WFO) {

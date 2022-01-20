@@ -40,10 +40,10 @@ public class UserController {
     }
 
     @GetMapping(path = BASE_URL + "/user/{id_user}")
-    public Mono<DataUser> maintainerGetDataUser(@PathVariable("id_user") Long id_user) {
+    public Mono<DataUser> maintainerGetDataUser(@PathVariable("id_user") Long idUser) {
         // TODO : ini typo ? gak kepakek auto correcnya ?
         // tinggal pencel spasi + ctrl
-        return dataUserApi.getDataUser(id_user);
+        return dataUserApi.getDataUser(idUser);
     }
 
     @PutMapping(path = BASE_URL + "/user/{id_user}")

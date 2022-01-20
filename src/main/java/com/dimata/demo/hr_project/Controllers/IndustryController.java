@@ -40,10 +40,10 @@ public class IndustryController {
     }
 
     @GetMapping(path = BASE_URL + "/industry/{id_industry}")
-    public Mono<DataIndustry> maintainerGetDataIndustry(@PathVariable("id_industry") Long id_industry) {
+    public Mono<DataIndustry> maintainerGetDataIndustry(@PathVariable("id_industry") Long idIndustry) {
         // TODO : ini typo ? gak kepakek auto correcnya ?
         // tinggal pencel spasi + ctrl
-        return dataIndustryApi.getDataIndustry(id_industry);
+        return dataIndustryApi.getDataIndustry(idIndustry);
     }
 
     @PutMapping(path = BASE_URL + "/industry/{id_industry}")
