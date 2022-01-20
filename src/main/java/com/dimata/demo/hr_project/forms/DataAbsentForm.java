@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.dimata.demo.hr_project.core.api.RecordAdapter;
 import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
+import com.dimata.demo.hr_project.core.util.jackson.TimeDeserialize;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,10 +18,10 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long idUser;
     private Long idIndustry;
     
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime checkInTime;
-    //  @JsonDeserialize(converter = DateDeserialize.class)
-    //  private LocalDateTime checkOutTime;
+    @JsonDeserialize(converter = TimeDeserialize.class)
+     private LocalDateTime checkOutTime;
 
    
     @Override

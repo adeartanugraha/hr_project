@@ -10,6 +10,7 @@ import com.dimata.demo.hr_project.core.util.GenerateUtil;
 import com.dimata.demo.hr_project.core.util.ManipulateUtil;
 import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
 import com.dimata.demo.hr_project.core.util.jackson.DateSerialize;
+import com.dimata.demo.hr_project.core.util.jackson.TimeSerialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -40,7 +41,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     public static final String ID_USER_COL = "id_user";
     public static final String ID_INDUSTRY_COL = "id_industry";
     public static final String CHECK_IN_TIME_COL = "check_in_time";
-    // public static final String CHECK_OUT_TIME_COL = "check_out_time";
+    public static final String CHECK_OUT_TIME_COL = "check_out_time";
 
     @Accessors(fluent = true)
     @Setter
@@ -48,13 +49,17 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
 
         private Long id;
         private Long idUser;
-        private Long idIndustry;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-        private LocalDateTime checkInTime = LocalDateTime.now();
-        // private LocalDateTime checkOutTime;
+        private Long idIndustry; 
+        private LocalDateTime checkInTime;
+        private LocalDateTime checkOutTime;
 
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
+
+
+        
+
+        
 
         public static Builder createNewRecord(Long idUser, Long idIndustry, LocalDateTime checkInTime) {
             return new Builder().newRecord(true)
@@ -64,8 +69,12 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
 
         public static Builder updateBuilder(DataAbsent oldRecord, DataAbsent newRecord) {
             return new Builder()
-                .id(oldRecord.getId());
-                // .checkOutTime(changeItOrNot(newRecord.getCheckOutTime(), oldRecord.getCheckOutTime()));
+                .id(oldRecord.getId())
+                .idUser(changeItOrNot(newRecord.getIdUser(), oldRecord.getIdUser()))
+                .idIndustry(changeItOrNot(newRecord.getIdIndustry(), oldRecord.getIdIndustry()))
+                .checkOutTime(changeItOrNot(newRecord.getCheckOutTime(), oldRecord.getCheckOutTime()))
+                .checkInTime(oldRecord.getCheckInTime());
+               
         }
 
         public static Builder emptyBuilder() {
@@ -78,6 +87,8 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             result.setIdUser(idUser);
             result.setIdIndustry(idIndustry);
             result.setCheckInTime(checkInTime);
+            result.setCheckOutTime(checkOutTime);
+            
             return result;
         }
     }
@@ -88,17 +99,19 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     private Long idUser;
     private Long idIndustry;
 
-    
-    // @JsonSerialize(converter = DateSerialize.class)
-    // private LocalDateTime checkOutTime;
-    
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonSerialize(converter = TimeSerialize.class)
     private LocalDateTime checkInTime ;
+    @JsonSerialize(converter = TimeSerialize.class)
+    private LocalDateTime checkOutTime;
+    
+   
 
     
     @Transient
     @JsonIgnore
     private Long insertId;
+
+  
 
 
     public static DataAbsent fromRow(Row row) {
@@ -107,7 +120,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         result.setIdUser(ManipulateUtil.parseRow(row, ID_USER_COL, Long.class));
         result.setIdIndustry(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
         result.setCheckInTime(ManipulateUtil.parseRow(row, CHECK_IN_TIME_COL, LocalDateTime.class));
-        // result.setCheckOutTime(ManipulateUtil.parseRow(row, CHECK_OUT_TIME_COL, LocalDateTime.class));
+        result.setCheckOutTime(ManipulateUtil.parseRow(row, CHECK_OUT_TIME_COL, LocalDateTime.class));
         return result;
     }
 
@@ -117,16 +130,22 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     public boolean isNew() {
         if (id == null && insertId == null) {
             id = new GenerateUtil().generateOID();
+            checkInTime = LocalDateTime.now();
             return true;
         } else if (id == null) {
             id = insertId;
+            checkInTime = LocalDateTime.now();
             return true;
-        }
+        } 
+        
         return false;
     }
+    
+    
 
     @Override
     public DataAbsent update(DataAbsent newData) {
+        checkOutTime = LocalDateTime.now();
         return Builder.updateBuilder(this, newData).build();
     }
 }
