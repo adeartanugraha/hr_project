@@ -9,9 +9,8 @@ import com.dimata.demo.hr_project.core.api.UpdateAvailable;
 import com.dimata.demo.hr_project.core.util.GenerateUtil;
 import com.dimata.demo.hr_project.core.util.ManipulateUtil;
 import com.dimata.demo.hr_project.core.util.jackson.OnlyTimeSerialize;
-import com.dimata.demo.hr_project.core.util.jackson.TimeSerialize;
 import com.dimata.demo.hr_project.enums.DayOfWeek;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.dimata.demo.hr_project.enums.IsOff;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -33,14 +32,15 @@ import lombok.experimental.Accessors;
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataWorkhour implements UpdateAvailable<DataWorkhour>, Persistable<Long>{
+public class DataSchedule implements UpdateAvailable<DataSchedule>, Persistable<Long>{
     
-    public static final String TABLE_NAME = "data_workhour";
-    public static final String ID_COL = "id_workhour";
+    public static final String TABLE_NAME = "data_schedule";
+    public static final String ID_COL = "id_schedule";
     public static final String ID_INDUSTRY_COL = "id_industry";
     public static final String DAY_COL = "day";
     public static final String TIME_IN_COL = "time_in";
     public static final String TIME_OUT_COL = "time_out";
+    public static final String ISOFF_COL = "isoff";
 
     @Accessors(fluent = true)
     @Setter
@@ -51,6 +51,7 @@ public class DataWorkhour implements UpdateAvailable<DataWorkhour>, Persistable<
         private DayOfWeek day;
         private LocalTime timeIn;
         private LocalTime timeOut;
+        private IsOff isoff;
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
 
@@ -61,26 +62,28 @@ public class DataWorkhour implements UpdateAvailable<DataWorkhour>, Persistable<
                 .day(Objects.requireNonNull(day, "Hari Tidak Boleh Kosong"));
         }
 
-        public static Builder updateBuilder(DataWorkhour oldRecord, DataWorkhour newRecord) {
+        public static Builder updateBuilder(DataSchedule oldRecord, DataSchedule newRecord) {
             return new Builder()
                 .id(oldRecord.getId())
                 .idIndustry(changeItOrNot(newRecord.getIdIndustry(), oldRecord.getIdIndustry()))
                 .day(changeItOrNot(newRecord.getDay(), oldRecord.getDay()))
                 .timeIn(changeItOrNot(newRecord.getTimeIn(), oldRecord.getTimeIn()))
-                .timeOut(changeItOrNot(newRecord.getTimeOut(), oldRecord.getTimeOut()));
+                .timeOut(changeItOrNot(newRecord.getTimeOut(), oldRecord.getTimeOut()))
+                .isoff(changeItOrNot(newRecord.getIsoff(), oldRecord.getIsoff()));
         }
 
         public static Builder emptyBuilder() {
             return new Builder();
         }
 
-        public DataWorkhour build() {
-            DataWorkhour result = new DataWorkhour();
+        public DataSchedule build() {
+            DataSchedule result = new DataSchedule();
             result.setId(id);
             result.setIdIndustry(idIndustry);
             result.setDay(day);
             result.setTimeIn(timeIn);
             result.setTimeOut(timeOut);
+            result.setIsoff(isoff);
             return result;
         }
     }
@@ -90,6 +93,7 @@ public class DataWorkhour implements UpdateAvailable<DataWorkhour>, Persistable<
     private Long id;
     private Long idIndustry;
     private Integer day;
+    private Integer isoff;
     @JsonSerialize(converter = OnlyTimeSerialize.class)
     private LocalTime timeIn;
     @JsonSerialize(converter = OnlyTimeSerialize.class)
@@ -110,14 +114,28 @@ public class DataWorkhour implements UpdateAvailable<DataWorkhour>, Persistable<
         }
         return null;
     }
+    
+    public void setIsoff(IsOff isoff) {
+        if (isoff != null) {
+            this.isoff = isoff.getCode();
+        }
+    }
 
-    public static DataWorkhour fromRow(Row row) {
-        var result = new DataWorkhour();
+    public IsOff getIsoff() {
+        if (isoff != null) {
+            return IsOff.getIsOff(this.isoff);
+        }
+        return null;
+    }
+
+    public static DataSchedule fromRow(Row row) {
+        var result = new DataSchedule();
         result.setId(ManipulateUtil.parseRow(row, ID_COL, Long.class));
         result.setIdIndustry(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));;
         result.setDay(DayOfWeek.getDay(ManipulateUtil.parseRow(row, DAY_COL, Integer.class)));
         result.setTimeIn(ManipulateUtil.parseRow(row, TIME_IN_COL, LocalTime.class));
         result.setTimeOut(ManipulateUtil.parseRow(row, TIME_OUT_COL, LocalTime.class));
+        result.setIsoff(IsOff.getIsOff(ManipulateUtil.parseRow(row, ISOFF_COL, Integer.class)));
         
         return result;
     }
@@ -135,7 +153,7 @@ public class DataWorkhour implements UpdateAvailable<DataWorkhour>, Persistable<
     }
 
     @Override
-    public DataWorkhour update(DataWorkhour newData) {
+    public DataSchedule update(DataSchedule newData) {
         return Builder.updateBuilder(this, newData).build();
     }
 

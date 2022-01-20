@@ -1,8 +1,8 @@
 package com.dimata.demo.hr_project.services.dbHandler;
 
 import com.dimata.demo.hr_project.core.api.DbHandlerBase;
-import com.dimata.demo.hr_project.models.table.DataWorkhour;
-import com.dimata.demo.hr_project.services.repo.DataWorkhourRepo;
+import com.dimata.demo.hr_project.models.table.DataSchedule;
+import com.dimata.demo.hr_project.services.repo.DataScheduleRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -14,18 +14,18 @@ import reactor.core.publisher.Mono;
 
 @Component
 @EqualsAndHashCode(callSuper = true)
-public class DataWorkhourDbHandler extends DbHandlerBase<DataWorkhour, Long> {
+public class DataScheduleDbHandler extends DbHandlerBase<DataSchedule, Long> {
     
     @Autowired
-    private DataWorkhourRepo repo;
+    private DataScheduleRepo repo;
 
     @Override
-    protected R2dbcRepository<DataWorkhour, Long> getRepository() {
+    protected R2dbcRepository<DataSchedule, Long> getRepository() {
         return repo;
     }
 
     @Override
-    protected Mono<DataWorkhour> setGenerateId(DataWorkhour record) {
+    protected Mono<DataSchedule> setGenerateId(DataSchedule record) {
         return Mono.just(record)
             .map(z -> {
                 long id = getGenerateUtil().generateOID();
@@ -35,7 +35,7 @@ public class DataWorkhourDbHandler extends DbHandlerBase<DataWorkhour, Long> {
     }
 
     @Override
-    protected Flux<DataWorkhour> setGenerateIdBatch(Flux<DataWorkhour> records) {
+    protected Flux<DataSchedule> setGenerateIdBatch(Flux<DataSchedule> records) {
         return records
             .map(rec -> {
                 long id = getGenerateUtil().generateOID();
