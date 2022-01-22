@@ -22,10 +22,7 @@ public class MainScheduleForm implements RecordAdapter<MainSchedule> {
     private WorkStatus status;
     @Override
     public MainSchedule convertNewRecord() {
-        return MainSchedule.Builder.createNewRecord(status)
-            .idSchedule(idSchedule)
-            .idIndustry(idIndustry)
-            .idUser(idUser)
+        return MainSchedule.Builder.createNewRecord(status, idSchedule, idIndustry, idUser)
             .id(id)
             .build();
     }

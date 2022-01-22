@@ -55,10 +55,12 @@ public class DataSchedule implements UpdateAvailable<DataSchedule>, Persistable<
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
 
-        public static Builder createNewRecord( DayOfWeek day) {
+        public static Builder createNewRecord( DayOfWeek day, LocalTime timeIn, LocalTime timeOut, Long idIndustry, IsOff isoff) {
             return new Builder().newRecord(true)
-                // .timeIn(Objects.requireNonNull(timeIn, "Jam Masuk Tidak Boleh Kosong"))
-                // .timeOut(Objects.requireNonNull(timeOut, "Jam Pulang Tidak Boleh Kosong"))
+                .idIndustry(Objects.requireNonNull(idIndustry, "Data Industri Tidak Boleh Kosong"))
+                .isoff(Objects.requireNonNull(isoff, "status Tidak Boleh Kosong"))
+                .timeIn(Objects.requireNonNull(timeIn, "Jam Masuk Tidak Boleh Kosong"))
+                .timeOut(Objects.requireNonNull(timeOut, "Jam Pulang Tidak Boleh Kosong"))
                 .day(Objects.requireNonNull(day, "Hari Tidak Boleh Kosong"));
         }
 

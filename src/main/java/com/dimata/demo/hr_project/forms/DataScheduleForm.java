@@ -27,11 +27,7 @@ public class DataScheduleForm implements RecordAdapter<DataSchedule> {
     private LocalTime timeOut;
     @Override
     public DataSchedule convertNewRecord() {
-        return DataSchedule.Builder.createNewRecord(day)
-            .timeIn(timeIn)
-            .timeOut(timeOut)
-            .idIndustry(idIndustry)
-            .isoff(isoff)
+        return DataSchedule.Builder.createNewRecord(day, timeIn, timeOut, idIndustry, isoff)
             .id(id)
             .build();
     }

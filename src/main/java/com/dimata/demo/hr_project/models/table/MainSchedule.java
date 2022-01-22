@@ -1,6 +1,5 @@
 package com.dimata.demo.hr_project.models.table;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 import static com.dimata.demo.hr_project.core.util.ManipulateUtil.changeItOrNot;
@@ -52,8 +51,11 @@ public class MainSchedule implements UpdateAvailable<MainSchedule>, Persistable<
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
 
-        public static Builder createNewRecord(WorkStatus status) {
+        public static Builder createNewRecord(WorkStatus status, Long idSchedule, Long idIndustry, Long idUser) {
             return new Builder().newRecord(true)
+                .idSchedule(Objects.requireNonNull(idSchedule, "data jadwal tidak boleh kosong"))
+                .idIndustry(Objects.requireNonNull(idIndustry, "data industry tidak boleh kosong"))
+                .idUser(Objects.requireNonNull(idUser, "data user tidak boleh kosong"))
                 .status(Objects.requireNonNull(status, "Status diperlukan"));
         }
 
