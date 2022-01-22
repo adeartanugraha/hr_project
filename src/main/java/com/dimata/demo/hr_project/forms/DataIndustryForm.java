@@ -17,11 +17,10 @@ public class DataIndustryForm implements RecordAdapter<DataIndustry> {
 
     private Long id;
     private String nameIndustry;
-    private WorkStatus status;
     @JsonDeserialize(converter = DateDeserialize.class)
     @Override
     public DataIndustry convertNewRecord() {
-        return DataIndustry.Builder.createNewRecord(nameIndustry, status)
+        return DataIndustry.Builder.createNewRecord(nameIndustry)
             .id(id)
             .build();
     }
@@ -29,7 +28,6 @@ public class DataIndustryForm implements RecordAdapter<DataIndustry> {
     public DataIndustry convertToRecord() {
         return DataIndustry.Builder.emptyBuilder()
             .nameIndustry(nameIndustry)
-            .status(status)
             .id(id)
             .build();
     }

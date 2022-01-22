@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2022 at 09:54 AM
+-- Generation Time: Jan 22, 2022 at 02:50 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -44,18 +44,17 @@ CREATE TABLE `data_absent` (
 
 CREATE TABLE `data_industry` (
   `id_industry` bigint(20) NOT NULL,
-  `name_industry` varchar(200) NOT NULL,
-  `status` tinyint(4) NOT NULL COMMENT '0 for WFO and 1 for WFH'
+  `name_industry` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `data_industry`
 --
 
-INSERT INTO `data_industry` (`id_industry`, `name_industry`, `status`) VALUES
-(846067421570739, 'industry', 1),
-(846067421577212, 'industry', 0),
-(846067428074067, 'in', 0);
+INSERT INTO `data_industry` (`id_industry`, `name_industry`) VALUES
+(846067421570739, 'industry'),
+(846067421577212, 'industry'),
+(846067428074067, 'in');
 
 -- --------------------------------------------------------
 
@@ -77,8 +76,7 @@ CREATE TABLE `data_schedule` (
 --
 
 INSERT INTO `data_schedule` (`id_schedule`, `id_industry`, `day`, `time_in`, `time_out`, `isoff`) VALUES
-(846067594462660, 4533, 5, '08:45:44', '19:15:44', 0),
-(846067598611383, 5453, 2, '08:45:44', '19:15:44', 1);
+(846067746053320, 846067421570739, 5, '08:45:44', '19:15:44', 0);
 
 -- --------------------------------------------------------
 
@@ -115,6 +113,13 @@ CREATE TABLE `main_schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `main_schedule`
+--
+
+INSERT INTO `main_schedule` (`id_mainschedule`, `id_schedule`, `id_industry`, `id_user`, `status`) VALUES
+(846067746265492, 846067746053320, 846067421570739, 846067425911716, 0);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -122,7 +127,9 @@ CREATE TABLE `main_schedule` (
 -- Indexes for table `data_absent`
 --
 ALTER TABLE `data_absent`
-  ADD PRIMARY KEY (`id_absent`);
+  ADD PRIMARY KEY (`id_absent`),
+  ADD KEY `idx_id_user` (`id_user`),
+  ADD KEY `idx_id_industry` (`id_industry`);
 
 --
 -- Indexes for table `data_industry`
@@ -134,7 +141,8 @@ ALTER TABLE `data_industry`
 -- Indexes for table `data_schedule`
 --
 ALTER TABLE `data_schedule`
-  ADD PRIMARY KEY (`id_schedule`);
+  ADD PRIMARY KEY (`id_schedule`),
+  ADD KEY `idx_id_industry` (`id_industry`);
 
 --
 -- Indexes for table `data_user`
@@ -146,7 +154,35 @@ ALTER TABLE `data_user`
 -- Indexes for table `main_schedule`
 --
 ALTER TABLE `main_schedule`
-  ADD PRIMARY KEY (`id_mainschedule`);
+  ADD PRIMARY KEY (`id_mainschedule`),
+  ADD KEY `idx_id_schedule` (`id_schedule`),
+  ADD KEY `idx_id_industry` (`id_industry`),
+  ADD KEY `idx_id_user` (`id_user`) USING BTREE;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `data_absent`
+--
+ALTER TABLE `data_absent`
+  ADD CONSTRAINT `data_absent_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `data_user` (`id_user`),
+  ADD CONSTRAINT `data_absent_ibfk_2` FOREIGN KEY (`id_industry`) REFERENCES `data_industry` (`id_industry`);
+
+--
+-- Constraints for table `data_schedule`
+--
+ALTER TABLE `data_schedule`
+  ADD CONSTRAINT `data_schedule_ibfk_1` FOREIGN KEY (`id_industry`) REFERENCES `data_industry` (`id_industry`);
+
+--
+-- Constraints for table `main_schedule`
+--
+ALTER TABLE `main_schedule`
+  ADD CONSTRAINT `main_schedule_ibfk_1` FOREIGN KEY (`id_schedule`) REFERENCES `data_schedule` (`id_schedule`),
+  ADD CONSTRAINT `main_schedule_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `data_user` (`id_user`),
+  ADD CONSTRAINT `main_schedule_ibfk_3` FOREIGN KEY (`id_industry`) REFERENCES `data_industry` (`id_industry`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -28,22 +28,22 @@ public class ScheduleController {
     private static final String BASE_URL = "/hr_project/v1";
 
     @PostMapping(path = BASE_URL + "/schedule", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<DataSchedule> maintainerAddDataSiswa(@RequestBody DataScheduleForm form) {
+    public Mono<DataSchedule> maintainerAddDataSchedule(@RequestBody DataScheduleForm form) {
         return dataWorkhourApi.createDataWorkhour(form);
     }
 
     @GetMapping(path = BASE_URL + "/schedule")
-    public Flux<DataSchedule> maintainerGetAllDataSiswa(CommonParam param) {
+    public Flux<DataSchedule> maintainerGetAllDataSchedule(CommonParam param) {
         return dataWorkhourApi.getAllDataWorkhour(param);
     }
 
     @GetMapping(path = BASE_URL + "/schedule/{id_schedule}")
-    public Mono<DataSchedule> maintainerGetDataSiswa(@PathVariable("id_schedule") Long idSchedule) {
+    public Mono<DataSchedule> maintainerGetDataSchedule(@PathVariable("id_schedule") Long idSchedule) {
         return dataWorkhourApi.getDataWorkhour(idSchedule);
     }
 
     @PutMapping(path = BASE_URL + "/schedule/{id_schedule}")
-    public Mono<DataSchedule> maintainerUpdateDataSiswa(@PathVariable("id_schedule") long idSchedule, @RequestBody DataScheduleForm form) {
+    public Mono<DataSchedule> maintainerUpdateDataSchedule(@PathVariable("id_schedule") long idSchedule, @RequestBody DataScheduleForm form) {
         return dataWorkhourApi.updateDataWorkhour(idSchedule, form);
     }
 }
