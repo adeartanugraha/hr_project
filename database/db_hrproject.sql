@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2022 at 02:50 AM
+-- Generation Time: Jan 25, 2022 at 03:50 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `data_absent` (
   `id_absent` bigint(20) NOT NULL,
   `id_user` bigint(20) NOT NULL,
-  `id_industry` bigint(20) NOT NULL,
+  `id_schedule` bigint(20) NOT NULL,
   `check_in_time` datetime NOT NULL,
   `check_out_time` datetime NOT NULL,
   `is_late` tinyint(4) NOT NULL
@@ -109,7 +109,7 @@ CREATE TABLE `main_schedule` (
   `id_schedule` bigint(20) NOT NULL,
   `id_industry` bigint(20) NOT NULL,
   `id_user` bigint(20) NOT NULL,
-  `status` tinyint(4) NOT NULL
+  `status` tinyint(4) NOT NULL COMMENT '0 = wfo and 1 = wfh'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -129,7 +129,7 @@ INSERT INTO `main_schedule` (`id_mainschedule`, `id_schedule`, `id_industry`, `i
 ALTER TABLE `data_absent`
   ADD PRIMARY KEY (`id_absent`),
   ADD KEY `idx_id_user` (`id_user`),
-  ADD KEY `idx_id_industry` (`id_industry`);
+  ADD KEY `idx_id_schedule` (`id_schedule`) USING BTREE;
 
 --
 -- Indexes for table `data_industry`
@@ -168,7 +168,7 @@ ALTER TABLE `main_schedule`
 --
 ALTER TABLE `data_absent`
   ADD CONSTRAINT `data_absent_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `data_user` (`id_user`),
-  ADD CONSTRAINT `data_absent_ibfk_2` FOREIGN KEY (`id_industry`) REFERENCES `data_industry` (`id_industry`);
+  ADD CONSTRAINT `data_absent_ibfk_2` FOREIGN KEY (`id_schedule`) REFERENCES `data_schedule` (`id_schedule`);
 
 --
 -- Constraints for table `data_schedule`
