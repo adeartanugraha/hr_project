@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2022 at 03:50 AM
+-- Generation Time: Jan 25, 2022 at 03:53 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -68,7 +68,7 @@ CREATE TABLE `data_schedule` (
   `day` tinyint(4) NOT NULL,
   `time_in` time NOT NULL,
   `time_out` time NOT NULL,
-  `isoff` tinyint(4) NOT NULL
+  `isoff` tinyint(4) NOT NULL COMMENT '0 = YES and 1 = NO'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
