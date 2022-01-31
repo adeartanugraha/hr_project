@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2022 at 03:53 AM
+-- Generation Time: Jan 31, 2022 at 04:31 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -33,8 +33,18 @@ CREATE TABLE `data_absent` (
   `id_schedule` bigint(20) NOT NULL,
   `check_in_time` datetime NOT NULL,
   `check_out_time` datetime NOT NULL,
-  `is_late` tinyint(4) NOT NULL
+  `is_late` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_absent`
+--
+
+INSERT INTO `data_absent` (`id_absent`, `id_user`, `id_schedule`, `check_in_time`, `check_out_time`, `is_late`) VALUES
+(846068355448499, 846067400050653, 846067746053320, '2022-01-29 11:01:56', '0000-00-00 00:00:00', 0),
+(846068358908389, 846067400050653, 846067746053320, '2022-01-29 11:59:36', '2022-01-29 12:17:46', 0),
+(846068360543155, 846067400050653, 846067746053320, '2022-01-29 12:26:51', '2022-01-29 12:27:04', 0),
+(846068527079151, 846067400050653, 846067746053320, '2022-01-31 10:42:27', '2022-01-31 10:42:42', 0);
 
 -- --------------------------------------------------------
 
@@ -76,7 +86,8 @@ CREATE TABLE `data_schedule` (
 --
 
 INSERT INTO `data_schedule` (`id_schedule`, `id_industry`, `day`, `time_in`, `time_out`, `isoff`) VALUES
-(846067746053320, 846067421570739, 5, '08:45:44', '19:15:44', 0);
+(846067746053320, 846067421570739, 5, '08:45:44', '19:15:44', 0),
+(846068528373994, 846067421570739, 2, '08:45:44', '19:15:44', 0);
 
 -- --------------------------------------------------------
 
