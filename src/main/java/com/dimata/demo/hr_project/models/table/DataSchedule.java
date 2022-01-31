@@ -1,5 +1,6 @@
 package com.dimata.demo.hr_project.models.table;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ import com.dimata.demo.hr_project.core.api.UpdateAvailable;
 import com.dimata.demo.hr_project.core.util.GenerateUtil;
 import com.dimata.demo.hr_project.core.util.ManipulateUtil;
 import com.dimata.demo.hr_project.core.util.jackson.OnlyTimeSerialize;
-import com.dimata.demo.hr_project.enums.DayOfWeek;
+import com.dimata.demo.hr_project.enums.DayOfWeeks;
 import com.dimata.demo.hr_project.enums.IsOff;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -48,14 +49,14 @@ public class DataSchedule implements UpdateAvailable<DataSchedule>, Persistable<
 
         private Long id;
         private Long idIndustry;
-        private DayOfWeek day;
+        private DayOfWeeks day;
         private LocalTime timeIn;
         private LocalTime timeOut;
         private IsOff isoff;
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
 
-        public static Builder createNewRecord( DayOfWeek day, LocalTime timeIn, LocalTime timeOut, Long idIndustry, IsOff isoff) {
+        public static Builder createNewRecord( DayOfWeeks day, LocalTime timeIn, LocalTime timeOut, Long idIndustry, IsOff isoff) {
             return new Builder().newRecord(true)
                 .idIndustry(Objects.requireNonNull(idIndustry, "Data Industri Tidak Boleh Kosong"))
                 .isoff(Objects.requireNonNull(isoff, "status Tidak Boleh Kosong"))
@@ -104,15 +105,15 @@ public class DataSchedule implements UpdateAvailable<DataSchedule>, Persistable<
     @JsonIgnore
     private Long insertId;
 
-    public void setDay(DayOfWeek day) {
+    public void setDay(DayOfWeeks day) {
         if (day != null) {
             this.day = day.getCode();
         }
     }
 
-    public DayOfWeek getDay() {
+    public DayOfWeeks getDay() {
         if (day != null) {
-            return DayOfWeek.getDay(this.day);
+            return DayOfWeeks.getDay(this.day);
         }
         return null;
     }
@@ -134,7 +135,7 @@ public class DataSchedule implements UpdateAvailable<DataSchedule>, Persistable<
         var result = new DataSchedule();
         result.setId(ManipulateUtil.parseRow(row, ID_COL, Long.class));
         result.setIdIndustry(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));;
-        result.setDay(DayOfWeek.getDay(ManipulateUtil.parseRow(row, DAY_COL, Integer.class)));
+        result.setDay(DayOfWeeks.getDay(ManipulateUtil.parseRow(row, DAY_COL, Integer.class)));
         result.setTimeIn(ManipulateUtil.parseRow(row, TIME_IN_COL, LocalTime.class));
         result.setTimeOut(ManipulateUtil.parseRow(row, TIME_OUT_COL, LocalTime.class));
         result.setIsoff(IsOff.getIsOff(ManipulateUtil.parseRow(row, ISOFF_COL, Integer.class)));

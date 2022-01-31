@@ -2,7 +2,7 @@ package com.dimata.demo.hr_project.enums;
 
 import lombok.Getter;
 
-public enum DayOfWeek {
+public enum DayOfWeeks {
     SUNDAY(0),
     MONDAY(1),
     TUESDAY(2),
@@ -15,7 +15,7 @@ public enum DayOfWeek {
     @Getter
     private final int code;
 
-    public static DayOfWeek getDay(Integer code){
+    public static DayOfWeeks getDay(Integer code){
         switch (code) {
             case 0:
                 return SUNDAY;
@@ -36,7 +36,7 @@ public enum DayOfWeek {
         }
     }
 
-    DayOfWeek(int code) {
+    DayOfWeeks(int code) {
         this.code = code;
     }
 
@@ -48,19 +48,19 @@ public enum DayOfWeek {
     // }
 
     public String parseStatus(int code) {
-        if (getDay(code) == DayOfWeek.SUNDAY) {
+        if (getDay(code) == DayOfWeeks.SUNDAY) {
             return "SUNDAY";
-        } else if (getDay(code) == DayOfWeek.MONDAY) {
+        } else if (getDay(code) == DayOfWeeks.MONDAY) {
             return "MONDAY";
-        } else if (getDay(code) == DayOfWeek.TUESDAY) {
+        } else if (getDay(code) == DayOfWeeks.TUESDAY) {
             return "TUESDAY";
-        } else if (getDay(code) == DayOfWeek.WEDNESDAY) {
+        } else if (getDay(code) == DayOfWeeks.WEDNESDAY) {
             return "WEDNESDAY";
-        } else if (getDay(code) == DayOfWeek.THRUSDAY) {
+        } else if (getDay(code) == DayOfWeeks.THRUSDAY) {
             return "THRUSDAY";
-        } else if (getDay(code) == DayOfWeek.FRIDAY) {
+        } else if (getDay(code) == DayOfWeeks.FRIDAY) {
             return "FRIDAY";
-        } else if (getDay(code) == DayOfWeek.SATURDAY) {
+        } else if (getDay(code) == DayOfWeeks.SATURDAY) {
             return "SATURDAY";
         }
         return "Undefined";

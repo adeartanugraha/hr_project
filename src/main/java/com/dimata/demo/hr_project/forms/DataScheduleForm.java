@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 import com.dimata.demo.hr_project.core.api.RecordAdapter;
 import com.dimata.demo.hr_project.core.util.jackson.OnlyTimeDeserialize;
-import com.dimata.demo.hr_project.enums.DayOfWeek;
+import com.dimata.demo.hr_project.enums.DayOfWeeks;
 import com.dimata.demo.hr_project.enums.IsOff;
 import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,7 +19,7 @@ public class DataScheduleForm implements RecordAdapter<DataSchedule> {
 
     private Long id;
     private Long idIndustry;
-    private DayOfWeek day;
+    private DayOfWeeks day;
     private IsOff isoff;
     @JsonDeserialize(converter = OnlyTimeDeserialize.class)
     private LocalTime timeIn;

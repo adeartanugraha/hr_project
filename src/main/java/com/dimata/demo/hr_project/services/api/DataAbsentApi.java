@@ -2,10 +2,12 @@ package com.dimata.demo.hr_project.services.api;
 
 
 import com.dimata.demo.hr_project.core.search.CommonParam;
+import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
 import com.dimata.demo.hr_project.forms.DataAbsentForm;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
+import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.services.crude.DataAbsentCrude;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class DataAbsentApi {
     }
 
     public Flux<DataAbsent> getAllDataAbsent(CommonParam param) {
-        var sql = SelectQBuilder.builderWithCommonParam(DataAbsent.TABLE_NAME, param)
+        var sql = SelectQBuilder.builder(DataAbsent.TABLE_NAME, JoinQuery.doInnerJoin(DataSchedule.TABLE_NAME).on(WhereQuery.when(DataAbsent.ID_COL).is(DataSchedule.ID_INDUSTRY_COL)), param)
             .build();
         return template.getDatabaseClient()
             .sql(sql)

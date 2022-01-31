@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long id;
     private Long idUser;
-    private Long idIndustry;
+    private Long idSchedule;
     
     @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime checkInTime;
@@ -26,14 +26,15 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
    
     @Override
     public DataAbsent convertNewRecord() {
-        return DataAbsent.Builder.createNewRecord(idUser,idIndustry,checkInTime)
+        return DataAbsent.Builder.createNewRecord(idUser,idSchedule,checkInTime)
             .id(id)
             .build();
     }
     @Override
     public DataAbsent convertToRecord() {
         return DataAbsent.Builder.emptyBuilder()
-            .id(id) 
+            .id(id)
+            .idSchedule(idSchedule)
             .build();
     }
 }
