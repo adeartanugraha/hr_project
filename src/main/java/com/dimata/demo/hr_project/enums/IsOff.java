@@ -25,8 +25,8 @@ public enum IsOff {
         this.code = code;
     }
 
-    public String parseIsOff(IsOff gender){
-        if (gender == IsOff.YES) {
+    public String parseIsOff(IsOff off){
+        if (off == IsOff.YES) {
             return "YES";
         }
         return "NO";

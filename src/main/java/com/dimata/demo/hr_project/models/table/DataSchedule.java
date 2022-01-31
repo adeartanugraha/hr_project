@@ -1,6 +1,7 @@
 package com.dimata.demo.hr_project.models.table;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import io.r2dbc.spi.Row;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -142,6 +144,7 @@ public class DataSchedule implements UpdateAvailable<DataSchedule>, Persistable<
         
         return result;
     }
+
 
     @Override
     public boolean isNew() {

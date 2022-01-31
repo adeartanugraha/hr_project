@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2022 at 04:31 AM
+-- Generation Time: Jan 31, 2022 at 10:32 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -31,20 +31,11 @@ CREATE TABLE `data_absent` (
   `id_absent` bigint(20) NOT NULL,
   `id_user` bigint(20) NOT NULL,
   `id_schedule` bigint(20) NOT NULL,
+  `id_token` bigint(20) NOT NULL,
   `check_in_time` datetime NOT NULL,
   `check_out_time` datetime NOT NULL,
   `is_late` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `data_absent`
---
-
-INSERT INTO `data_absent` (`id_absent`, `id_user`, `id_schedule`, `check_in_time`, `check_out_time`, `is_late`) VALUES
-(846068355448499, 846067400050653, 846067746053320, '2022-01-29 11:01:56', '0000-00-00 00:00:00', 0),
-(846068358908389, 846067400050653, 846067746053320, '2022-01-29 11:59:36', '2022-01-29 12:17:46', 0),
-(846068360543155, 846067400050653, 846067746053320, '2022-01-29 12:26:51', '2022-01-29 12:27:04', 0),
-(846068527079151, 846067400050653, 846067746053320, '2022-01-31 10:42:27', '2022-01-31 10:42:42', 0);
 
 -- --------------------------------------------------------
 
@@ -87,7 +78,35 @@ CREATE TABLE `data_schedule` (
 
 INSERT INTO `data_schedule` (`id_schedule`, `id_industry`, `day`, `time_in`, `time_out`, `isoff`) VALUES
 (846067746053320, 846067421570739, 5, '08:45:44', '19:15:44', 0),
-(846068528373994, 846067421570739, 2, '08:45:44', '19:15:44', 0);
+(846068528373994, 846067421570739, 2, '08:45:44', '19:15:44', 0),
+(846068530847571, 846067421570739, 1, '08:45:44', '19:15:44', 0),
+(846068530864612, 846067421570739, 1, '08:45:44', '19:15:44', 0),
+(846068530917807, 846067421570739, -1, '08:45:44', '19:15:44', 0),
+(846068530958206, 846067421570739, 2, '08:45:44', '19:15:44', 0),
+(846068531138640, 846067421570739, 2, '08:45:44', '19:15:44', 0),
+(846068531143886, 846067421570739, 2, '08:45:44', '19:15:44', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_token`
+--
+
+CREATE TABLE `data_token` (
+  `token_code` bigint(20) NOT NULL,
+  `is_active` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_token`
+--
+
+INSERT INTO `data_token` (`token_code`, `is_active`) VALUES
+(846068550168830, 0),
+(846068550177056, 0),
+(846068551353617, -1),
+(846068551358806, 1),
+(846068551363759, 0);
 
 -- --------------------------------------------------------
 
@@ -140,7 +159,8 @@ INSERT INTO `main_schedule` (`id_mainschedule`, `id_schedule`, `id_industry`, `i
 ALTER TABLE `data_absent`
   ADD PRIMARY KEY (`id_absent`),
   ADD KEY `idx_id_user` (`id_user`),
-  ADD KEY `idx_id_schedule` (`id_schedule`) USING BTREE;
+  ADD KEY `idx_id_schedule` (`id_schedule`) USING BTREE,
+  ADD KEY `idx_id_token` (`id_token`);
 
 --
 -- Indexes for table `data_industry`
@@ -154,6 +174,12 @@ ALTER TABLE `data_industry`
 ALTER TABLE `data_schedule`
   ADD PRIMARY KEY (`id_schedule`),
   ADD KEY `idx_id_industry` (`id_industry`);
+
+--
+-- Indexes for table `data_token`
+--
+ALTER TABLE `data_token`
+  ADD PRIMARY KEY (`token_code`);
 
 --
 -- Indexes for table `data_user`
@@ -179,7 +205,8 @@ ALTER TABLE `main_schedule`
 --
 ALTER TABLE `data_absent`
   ADD CONSTRAINT `data_absent_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `data_user` (`id_user`),
-  ADD CONSTRAINT `data_absent_ibfk_2` FOREIGN KEY (`id_schedule`) REFERENCES `data_schedule` (`id_schedule`);
+  ADD CONSTRAINT `data_absent_ibfk_2` FOREIGN KEY (`id_schedule`) REFERENCES `data_schedule` (`id_schedule`),
+  ADD CONSTRAINT `data_absent_ibfk_3` FOREIGN KEY (`id_token`) REFERENCES `data_token` (`token_code`);
 
 --
 -- Constraints for table `data_schedule`
