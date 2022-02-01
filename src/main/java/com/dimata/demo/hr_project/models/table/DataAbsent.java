@@ -42,6 +42,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     public static final String ID_COL = "id_absent";
     public static final String ID_USER_COL = "id_user";
     public static final String ID_INDUSTRY_COL = "id_schedule";
+    public static final String ID_TOKEN_COL = "id_token";
     public static final String CHECK_IN_TIME_COL = "check_in_time";
     public static final String CHECK_OUT_TIME_COL = "check_out_time";
     public static final String IS_LATE_COL = "is_late";
@@ -61,6 +62,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         private Long id;
         private Long idUser;
         private Long idSchedule; 
+        private Long idToken; 
         private Boolean isLate; 
         private LocalDateTime checkInTime;
         private LocalDateTime checkOutTime;
@@ -84,6 +86,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             return new Builder()
                 .id(oldRecord.getId())
                 .idUser(changeItOrNot(newRecord.getIdUser(), oldRecord.getIdUser()))
+                .idToken(changeItOrNot(newRecord.getIdToken(), oldRecord.getIdToken()))
                 .isLate(changeItOrNot(newRecord.getIsLate(), oldRecord.getIsLate()))
                 .idSchedule(changeItOrNot(newRecord.getIdSchedule(), oldRecord.getIdSchedule()))
                 .checkOutTime(changeItOrNot(newRecord.getCheckOutTime(), oldRecord.getCheckOutTime()))
@@ -99,6 +102,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             DataAbsent result = new DataAbsent();
             result.setId(id);
             result.setIdUser(idUser);
+            result.setIdToken(idToken);
             result.setIsLate(isLate);
             result.setIdSchedule(idSchedule);
             result.setCheckInTime(checkInTime);
@@ -113,6 +117,8 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     private Long id;
     private Long idUser;
     private Long idSchedule;
+    private Long idToken; 
+
     private Boolean isLate;
     
     @JsonSerialize(converter = TimeSerialize.class)
@@ -132,6 +138,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         var result = new DataAbsent();
         result.setId(ManipulateUtil.parseRow(row, ID_COL, Long.class));
         result.setIdUser(ManipulateUtil.parseRow(row, ID_USER_COL, Long.class));
+        result.setIdToken(ManipulateUtil.parseRow(row, ID_TOKEN_COL, Long.class));
         result.setIsLate(ManipulateUtil.parseRow(row, IS_LATE_COL, Boolean.class));
         result.setIdSchedule(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
         result.setCheckInTime(ManipulateUtil.parseRow(row, CHECK_IN_TIME_COL, LocalDateTime.class));

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2022 at 10:32 AM
+-- Generation Time: Feb 01, 2022 at 10:40 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -94,19 +94,21 @@ INSERT INTO `data_schedule` (`id_schedule`, `id_industry`, `day`, `time_in`, `ti
 
 CREATE TABLE `data_token` (
   `token_code` bigint(20) NOT NULL,
-  `is_active` tinyint(4) NOT NULL
+  `is_active` tinyint(4) NOT NULL,
+  `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `data_token`
 --
 
-INSERT INTO `data_token` (`token_code`, `is_active`) VALUES
-(846068550168830, 0),
-(846068550177056, 0),
-(846068551353617, -1),
-(846068551358806, 1),
-(846068551363759, 0);
+INSERT INTO `data_token` (`token_code`, `is_active`, `created_at`) VALUES
+(846068550168830, 0, NULL),
+(846068550177056, 0, NULL),
+(846068551353617, -1, NULL),
+(846068551358806, 1, NULL),
+(846068551363759, 0, NULL),
+(846068622041482, 0, '2022-02-01 13:05:09');
 
 -- --------------------------------------------------------
 

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long id;
     private Long idUser;
+    private Long idToken;
     private Boolean isLate;
     private Long idSchedule;
     
@@ -27,6 +28,7 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     public DataAbsent convertNewRecord() {
         return DataAbsent.Builder.createNewRecord(idUser,idSchedule,checkInTime)
             .id(id)
+            .idToken(idToken)
             .isLate(isLate)
             .build();
     }
@@ -35,6 +37,7 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
         return DataAbsent.Builder.emptyBuilder()
             .id(id)
             .isLate(isLate)
+            .idToken(idToken)
             .idSchedule(idSchedule)
             .build();
     }

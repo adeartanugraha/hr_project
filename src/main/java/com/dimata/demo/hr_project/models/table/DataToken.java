@@ -1,6 +1,7 @@
 package com.dimata.demo.hr_project.models.table;
 
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import static com.dimata.demo.hr_project.core.util.ManipulateUtil.changeItOrNot;
 
@@ -9,6 +10,7 @@ import com.dimata.demo.hr_project.core.util.GenerateUtil;
 import com.dimata.demo.hr_project.core.util.ManipulateUtil;
 import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
 import com.dimata.demo.hr_project.core.util.jackson.DateSerialize;
+import com.dimata.demo.hr_project.core.util.jackson.TimeSerialize;
 import com.dimata.demo.hr_project.enums.IsActive;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -37,6 +39,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     public static final String TABLE_NAME = "data_token";
     public static final String ID_COL = "token_code";
     public static final String IS_ACTIVE_COL = "is_active";
+    public static final String CRETED_AT_COL = "created_at";
     
     @Accessors(fluent = true)
     @Setter
@@ -44,6 +47,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
 
         private Long id;
         private IsActive isActive;
+        private LocalDateTime createdAt;
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
 
@@ -55,7 +59,8 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
         public static Builder updateBuilder(DataToken oldRecord, DataToken newRecord) {
             return new Builder()
                 .id(oldRecord.getId())
-                .isActive(changeItOrNot(newRecord.getIsActive(), oldRecord.getIsActive()));
+                .isActive(changeItOrNot(newRecord.getIsActive(), oldRecord.getIsActive()))
+                .createdAt(oldRecord.getCreatedAt());
         }
 
         public static Builder emptyBuilder() {
@@ -66,6 +71,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
             DataToken result = new DataToken();
             result.setId(id);
             result.setIsActive(isActive);
+            result.setCreatedAt(createdAt);
             return result;
         }
     }
@@ -74,6 +80,9 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     @Column(ID_COL)
     private Long id;
     private Integer isActive;
+    
+    @JsonSerialize(converter = TimeSerialize.class)
+    private LocalDateTime createdAt;
 
     
     @Transient
@@ -97,6 +106,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
         var result = new DataToken();
         result.setId(ManipulateUtil.parseRow(row, ID_COL, Long.class));
         result.setIsActive(IsActive.getIsActive(ManipulateUtil.parseRow(row, IS_ACTIVE_COL, Integer.class)));
+        result.setCreatedAt(ManipulateUtil.parseRow(row, CRETED_AT_COL, LocalDateTime.class));
         return result;
     }
 
@@ -106,9 +116,11 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     public boolean isNew() {
         if (id == null && insertId == null) {
             id = new GenerateUtil().generateOID();
+            createdAt = LocalDateTime.now();
             return true;
         } else if (id == null) {
             id = insertId;
+            createdAt = LocalDateTime.now();
             return true;
         }
         return false;
