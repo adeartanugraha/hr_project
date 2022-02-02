@@ -63,10 +63,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         private Boolean isLate; 
         private LocalDateTime checkInTime;
         private LocalDateTime checkOutTime;
-        
-        
-        private Boolean isLate; 
-        
+      
         private LocalDateTime timeScheduleIn;
         private LocalDateTime timeScheduleOut;
         
@@ -110,7 +107,6 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             result.setId(id);
             result.setIdUser(idUser);
             result.setIdToken(idToken);
-            result.setIsLate(isLate);
             result.setIdSchedule(idSchedule);
             result.setCheckInTime(checkInTime);
             result.setCheckOutTime(checkOutTime);
@@ -137,7 +133,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
 
     
 
-    private Boolean isLate;
+
     
     @Transient
     @JsonIgnore
@@ -171,7 +167,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         result.setIdSchedule(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
         result.setCheckInTime(ManipulateUtil.parseRow(row, CHECK_IN_TIME_COL, LocalDateTime.class));
         result.setCheckOutTime(ManipulateUtil.parseRow(row, CHECK_OUT_TIME_COL, LocalDateTime.class));
-        result.setIsLate(ManipulateUtil.parseRow(row, IS_LATE_COL, Boolean.class));
+       
         return result;
     }
 
@@ -182,9 +178,8 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         if (id == null && insertId == null) {
             id = new GenerateUtil().generateOID();
             checkInTime = LocalDateTime.now();
-
+            Objects.requireNonNull(timeScheduleIn,"ksong");
             isLate = checkInTime.isAfter(timeScheduleIn);
-
             return true;
         } else if (id == null) {
             id = insertId;
