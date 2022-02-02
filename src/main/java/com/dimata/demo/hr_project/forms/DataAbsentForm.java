@@ -40,6 +40,7 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
             .id(id)
             .isLate(isLate)
             .timeScheduleIn(timeScheduleIn)
+            .timeScheduleOut(timeScheduleOut)
             .checkInTime(checkInTime)
             .build();
     }

@@ -83,6 +83,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
                 .idUser(changeItOrNot(newRecord.getIdUser(), oldRecord.getIdUser()))
                 .idSchedule(changeItOrNot(newRecord.getIdSchedule(), oldRecord.getIdSchedule()))
                 .checkOutTime(changeItOrNot(newRecord.getCheckOutTime(), oldRecord.getCheckOutTime()))
+                .isLate(changeItOrNot(newRecord.getIsLate(),(newRecord.getIsLate())))
                 .checkInTime(oldRecord.getCheckInTime());
                
         }
@@ -98,6 +99,8 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             result.setIdSchedule(idSchedule);
             result.setCheckInTime(checkInTime);
             result.setCheckOutTime(checkOutTime);
+            result.setTimeScheduleIn(timeScheduleIn);
+            result.setTimeScheduleOut(timeScheduleOut);
             result.setIsLate(isLate);
             return result;
         }
@@ -117,9 +120,12 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
 
     private Boolean isLate;
     
+    @Transient
+    @JsonIgnore
     @JsonSerialize(converter = TimeSerialize.class)
      private LocalDateTime timeScheduleIn;
    
+     
     @JsonSerialize(converter = TimeSerialize.class)
      private LocalDateTime timeScheduleOut;
      
@@ -161,7 +167,8 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             checkInTime = LocalDateTime.now();
             isLate = checkInTime.isAfter(timeScheduleIn);
             return true;
-        } 
+        }
+        
         return false;
     }
     
@@ -170,7 +177,9 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     @Override
     public DataAbsent update(DataAbsent newData) {
         checkOutTime = LocalDateTime.now();
-        isLate = checkOutTime.isAfter(timeScheduleOut);
+        Objects.requireNonNull(timeScheduleOut,"ksong");
+        // isLate = timeScheduleOut.isAfter(checkOutTime);
+         
         return Builder.updateBuilder(this, newData).build();
     }
     
