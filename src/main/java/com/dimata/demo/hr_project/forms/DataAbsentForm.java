@@ -28,8 +28,6 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     @JsonDeserialize(converter = TimeDeserialize.class)
      private LocalDateTime checkOutTime;
     
-
-     private Boolean isLate;
     
    
     @Override
@@ -38,14 +36,11 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
         
         return DataAbsent.Builder.createNewRecord(idUser,idSchedule)
             .id(id)
-
             .isLate(isLate)
             .timeScheduleIn(timeScheduleIn)
             .timeScheduleOut(timeScheduleOut)
             .checkInTime(checkInTime)
-
             .idToken(idToken)
-
             .build();
     }
     @Override
