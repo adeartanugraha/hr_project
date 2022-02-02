@@ -3,10 +3,8 @@ package com.dimata.demo.hr_project.forms;
 import java.time.LocalDateTime;
 
 import com.dimata.demo.hr_project.core.api.RecordAdapter;
-import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
 import com.dimata.demo.hr_project.core.util.jackson.TimeDeserialize;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Data;
@@ -16,6 +14,8 @@ import lombok.NoArgsConstructor;
 public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long id;
     private Long idUser;
+    private Long idToken;
+    private Boolean isLate;
     private Long idSchedule;
 
     @JsonDeserialize(converter = TimeDeserialize.class)
@@ -38,16 +38,22 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
         
         return DataAbsent.Builder.createNewRecord(idUser,idSchedule)
             .id(id)
+
             .isLate(isLate)
             .timeScheduleIn(timeScheduleIn)
             .timeScheduleOut(timeScheduleOut)
             .checkInTime(checkInTime)
+
+            .idToken(idToken)
+
             .build();
     }
     @Override
     public DataAbsent convertToRecord() {
         return DataAbsent.Builder.emptyBuilder()
             .id(id)
+            .isLate(isLate)
+            .idToken(idToken)
             .idSchedule(idSchedule)
             .isLate(isLate)
             .timeScheduleIn(timeScheduleIn)
