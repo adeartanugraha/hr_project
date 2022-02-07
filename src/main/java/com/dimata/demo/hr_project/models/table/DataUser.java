@@ -2,6 +2,10 @@ package com.dimata.demo.hr_project.models.table;
 
 
 import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.OneToMany;
+
 import static com.dimata.demo.hr_project.core.util.ManipulateUtil.changeItOrNot;
 
 import com.dimata.demo.hr_project.core.api.UpdateAvailable;
@@ -23,6 +27,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import io.r2dbc.spi.Row;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -41,11 +46,15 @@ public class DataUser implements Persistable<Long>, UpdateAvailable<DataUser> {
     @Accessors(fluent = true)
     @Setter
     public static class Builder {
-
+        
         private Long id;
         private String username;
         private String password;
+        
+        @OneToMany(mappedBy = "idUser")
+        private Set<DataAbsent> dataAbsent;
         @Setter(AccessLevel.PRIVATE)
+        
         private boolean newRecord = false;
 
         public static Builder createNewRecord(String username, String password) {
@@ -112,4 +121,7 @@ public class DataUser implements Persistable<Long>, UpdateAvailable<DataUser> {
     public DataUser update(DataUser newData) {
         return Builder.updateBuilder(this, newData).build();
     }
+    
+    
+
 }

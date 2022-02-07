@@ -1,7 +1,13 @@
 package com.dimata.demo.hr_project.services.dbHandler;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.dimata.demo.hr_project.core.api.DbHandlerBase;
+import com.dimata.demo.hr_project.core.search.CollumnQuery;
+import com.dimata.demo.hr_project.core.search.CollumnStep;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
+import com.dimata.demo.hr_project.models.table.DataUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -40,5 +46,15 @@ public class DataAbsentDbhandler extends DbHandlerBase<DataAbsent, Long>{
                 rec.setInsertId(id);
                 return rec;
             });
+    }
+
+    public List<CollumnStep> userAbsentColumn() {
+        return Arrays.asList(CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.ID_COL)),
+            CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_COL)).as("id_absent")
+        );
+    }
+
+    public String getColumnName(String tableName, String columnName) {
+        return tableName+"."+columnName;
     }
 }

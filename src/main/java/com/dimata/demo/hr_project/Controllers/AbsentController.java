@@ -2,6 +2,7 @@ package com.dimata.demo.hr_project.Controllers;
 
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.forms.DataAbsentForm;
+import com.dimata.demo.hr_project.models.output.UserAbsent;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
 import com.dimata.demo.hr_project.services.api.DataAbsentApi;
 
@@ -35,7 +36,7 @@ public class AbsentController {
     }
 
     @GetMapping(path = BASE_URL + "/absent")
-    public Flux<DataAbsent> maintainerGetAllDataAbsent(CommonParam param) {
+    public Flux<UserAbsent> maintainerGetAllDataAbsent(CommonParam param) {
         return dataAbsentApi.getAllDataAbsent(param);
     }
 
