@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import static com.dimata.demo.hr_project.core.util.ManipulateUtil.changeItOrNot;
@@ -57,6 +58,10 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     public static class Builder {
 
         private Long id;
+        // @ManyToOne
+        // @JoinColumn(name = "id_user", nullable = false)
+        // @JsonIgnore
+        // private DataUser idUser;
         private Long idUser;
         private Long idSchedule; 
         private Long idToken; 
@@ -72,7 +77,6 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         @Setter(AccessLevel.PRIVATE)
         private Boolean newRecord = false;
         
-
 
         
 
@@ -121,6 +125,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     @Column(ID_COL)
     private Long id;
     private Long idUser;
+    // private DataUser idUser;
     private Long idSchedule;
     private Long idToken; 
 
@@ -152,7 +157,19 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     
     
     
-   
+    
+    // public void setIdUser(DataUser idUser) {
+    //     if (idUser!= null) {
+    //         this.idUser = idUser.getId();
+    //     }
+    // }
+
+    // public DataUser getIdUser() {
+    //     if (idUser != null) {
+    //         return DataUser.getUsername(this.idUser);
+    //     }
+    //     return null;
+    // }
 
 
   
