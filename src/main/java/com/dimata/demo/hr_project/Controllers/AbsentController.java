@@ -28,7 +28,7 @@ public class AbsentController {
 
     @PostMapping(path = BASE_URL + "/absent", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<DataAbsent> maintainerAddDataAbsent(@RequestBody DataAbsentForm form) {
-        // TODO : Tidak boleh ada dua return dalam satu method.
+        
 
         return dataAbsentApi.createDataAbsent(form);
 

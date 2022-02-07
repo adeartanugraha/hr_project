@@ -17,19 +17,30 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long idToken;
     private Boolean isLate;
     private Long idSchedule;
+
+    @JsonDeserialize(converter = TimeDeserialize.class)
+     private LocalDateTime timeScheduleIn;
+     @JsonDeserialize(converter = TimeDeserialize.class)
+     private LocalDateTime timeScheduleOut;
     
     @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime checkInTime;
     @JsonDeserialize(converter = TimeDeserialize.class)
      private LocalDateTime checkOutTime;
-
+    
+    
    
     @Override
     public DataAbsent convertNewRecord() {
-        return DataAbsent.Builder.createNewRecord(idUser,idSchedule,checkInTime)
+            
+        
+        return DataAbsent.Builder.createNewRecord(idUser,idSchedule)
             .id(id)
-            .idToken(idToken)
             .isLate(isLate)
+            .timeScheduleIn(timeScheduleIn)
+            .timeScheduleOut(timeScheduleOut)
+            .checkInTime(checkInTime)
+            .idToken(idToken)
             .build();
     }
     @Override
@@ -39,6 +50,9 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
             .isLate(isLate)
             .idToken(idToken)
             .idSchedule(idSchedule)
+            .isLate(isLate)
+            .timeScheduleIn(timeScheduleIn)
+            .timeScheduleOut(timeScheduleOut)
             .build();
     }
 }

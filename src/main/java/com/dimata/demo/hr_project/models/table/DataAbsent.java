@@ -14,6 +14,11 @@ import static com.dimata.demo.hr_project.core.util.ManipulateUtil.changeItOrNot;
 import com.dimata.demo.hr_project.core.api.UpdateAvailable;
 import com.dimata.demo.hr_project.core.util.GenerateUtil;
 import com.dimata.demo.hr_project.core.util.ManipulateUtil;
+
+import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
+import com.dimata.demo.hr_project.core.util.jackson.DateSerialize;
+import com.dimata.demo.hr_project.core.util.jackson.TimeDeserialize;
+
 import com.dimata.demo.hr_project.core.util.jackson.TimeSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -47,14 +52,6 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     public static final String CHECK_OUT_TIME_COL = "check_out_time";
     public static final String IS_LATE_COL = "is_late";
 
-
-    // @OneToOne
-    // @JoinColumn(name="time_in", nullable = false)
-    // @JsonDeserialize(converter = OnlyTimeDeserialize.class)
-    // private LocalTime schedule;
-    // LocalDateTime a = LocalDateTime.of(LocalDate.now(),schedule);
-
-
     @Accessors(fluent = true)
     @Setter
     public static class Builder {
@@ -66,20 +63,26 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         private Boolean isLate; 
         private LocalDateTime checkInTime;
         private LocalDateTime checkOutTime;
+      
+        private LocalDateTime timeScheduleIn;
+        private LocalDateTime timeScheduleOut;
+        
 
 
         @Setter(AccessLevel.PRIVATE)
-        private boolean newRecord = false;
+        private Boolean newRecord = false;
+        
 
 
         
 
         
 
-        public static Builder createNewRecord(Long idUser, Long idSchedule, LocalDateTime checkInTime) {
+        public static Builder createNewRecord(Long idUser, Long idSchedule) {
             return new Builder().newRecord(true)
                 .idUser(Objects.requireNonNull(idUser, "id user tidak boleh kosong"))
                 .idSchedule(Objects.requireNonNull(idSchedule, "id industry tidak boleh kosong"));
+                
         }
 
         public static Builder updateBuilder(DataAbsent oldRecord, DataAbsent newRecord) {
@@ -90,6 +93,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
                 .isLate(changeItOrNot(newRecord.getIsLate(), oldRecord.getIsLate()))
                 .idSchedule(changeItOrNot(newRecord.getIdSchedule(), oldRecord.getIdSchedule()))
                 .checkOutTime(changeItOrNot(newRecord.getCheckOutTime(), oldRecord.getCheckOutTime()))
+                .isLate(changeItOrNot(newRecord.getIsLate(),(newRecord.getIsLate())))
                 .checkInTime(oldRecord.getCheckInTime());
                
         }
@@ -103,11 +107,12 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             result.setId(id);
             result.setIdUser(idUser);
             result.setIdToken(idToken);
-            result.setIsLate(isLate);
             result.setIdSchedule(idSchedule);
             result.setCheckInTime(checkInTime);
             result.setCheckOutTime(checkOutTime);
-            
+            result.setTimeScheduleIn(timeScheduleIn);
+            result.setTimeScheduleOut(timeScheduleOut);
+            result.setIsLate(isLate);
             return result;
         }
     }
@@ -126,9 +131,28 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     @JsonSerialize(converter = TimeSerialize.class)
     private LocalDateTime checkOutTime;
 
+    
+
+
+    
+    @Transient
+    @JsonIgnore
+    @JsonSerialize(converter = TimeSerialize.class)
+     private LocalDateTime timeScheduleIn;
+   
+     
+    @JsonSerialize(converter = TimeSerialize.class)
+     private LocalDateTime timeScheduleOut;
+     
+
+
     @Transient
     @JsonIgnore
     private Long insertId;
+    
+    
+    
+   
 
 
   
@@ -143,6 +167,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         result.setIdSchedule(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
         result.setCheckInTime(ManipulateUtil.parseRow(row, CHECK_IN_TIME_COL, LocalDateTime.class));
         result.setCheckOutTime(ManipulateUtil.parseRow(row, CHECK_OUT_TIME_COL, LocalDateTime.class));
+       
         return result;
     }
 
@@ -153,14 +178,16 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         if (id == null && insertId == null) {
             id = new GenerateUtil().generateOID();
             checkInTime = LocalDateTime.now();
-            
-            // isLate = checkInTime.isAfter(a);
+            Objects.requireNonNull(timeScheduleIn,"ksong");
+            isLate = checkInTime.isAfter(timeScheduleIn);
             return true;
         } else if (id == null) {
             id = insertId;
             checkInTime = LocalDateTime.now();
+            isLate = checkInTime.isAfter(timeScheduleIn);
             return true;
         }
+
         return false;
     }
     
@@ -169,6 +196,10 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     @Override
     public DataAbsent update(DataAbsent newData) {
         checkOutTime = LocalDateTime.now();
+        Objects.requireNonNull(timeScheduleOut,"ksong");
+        // isLate = timeScheduleOut.isAfter(checkOutTime);
+         
         return Builder.updateBuilder(this, newData).build();
     }
+    
 }
