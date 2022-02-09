@@ -20,7 +20,7 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
 
     @JsonDeserialize(converter = TimeDeserialize.class)
      private LocalDateTime timeScheduleIn;
-     @JsonDeserialize(converter = TimeDeserialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
      private LocalDateTime timeScheduleOut;
     
     @JsonDeserialize(converter = TimeDeserialize.class)

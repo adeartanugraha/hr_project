@@ -53,7 +53,17 @@ public class DataAbsentApi {
             .map(DataAbsent::fromRow)
             .one();
     }
-
+    public Flux<DataAbsent> getDataAbsentUser(Long idUser) {
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+        .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(idUser))
+        .build();
+    System.out.println(sql);
+    return template.getDatabaseClient()
+        .sql(sql)
+        .map(DataAbsent::fromRow)
+        .all();
+    }
+  
     public Mono<DataAbsent> updateDataAbsent(Long id, DataAbsentForm form) {
         return Mono.zip(Mono.just(id), Mono.just(form))
             .map(z -> {

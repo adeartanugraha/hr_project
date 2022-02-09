@@ -41,12 +41,16 @@ public class AbsentController {
 
     @GetMapping(path = BASE_URL + "/absent/{id_absent}")
     public Mono<DataAbsent> maintainerGetDataAbsent(@PathVariable("id_absent") Long id_absent) {
-        // TODO : ini typo ? gak kepakek auto correcnya ?
-        // tinggal pencel spasi + ctrl
+     
         return dataAbsentApi.getDataAbsent(id_absent);
     }
+    @GetMapping(path = BASE_URL + "/absent/user/{id_user}")
+    public Flux<DataAbsent> maintainerGetDataAbsentUser(@PathVariable("id_user") Long id_user) {
+     
+        return dataAbsentApi.getDataAbsentUser(id_user);
+    }
 
-    @PutMapping(path = BASE_URL + "/absent/{id_absent}")
+    @PostMapping(path = BASE_URL + "/absent/{id_absent}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<DataAbsent> maintainerUpdateDataAbsent(@PathVariable("id_absent") long idAbsent, @RequestBody DataAbsentForm form) {
         return dataAbsentApi.updateDataAbsent(idAbsent, form);
     }
