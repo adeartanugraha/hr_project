@@ -49,7 +49,6 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     public DataAbsent convertToRecord() {
         return DataAbsent.Builder.emptyBuilder()
             .id(id)
-            .isLate(isLate)
             .idToken(idToken)
             .idUser(idUser)
             .idSchedule(idSchedule)

@@ -45,7 +45,7 @@ public class DataAbsentApi {
         var sql = SelectQBuilder.builderWithCommonParam(DataAbsent.TABLE_NAME, param)
             .addColumns(dataAbsentDbhandler.userAbsentColumn())
             .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
-                .on(WhereQuery.when(DataAbsent.TABLE_NAME+"."+DataAbsent.ID_COL)
+                .on(WhereQuery.when(DataAbsent.TABLE_NAME+"."+DataAbsent.ID_USER_COL)
                 .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
             )
             .build();

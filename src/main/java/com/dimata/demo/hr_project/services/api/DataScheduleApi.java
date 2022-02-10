@@ -1,11 +1,15 @@
 package com.dimata.demo.hr_project.services.api;
 
 import com.dimata.demo.hr_project.core.search.CommonParam;
+import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
 import com.dimata.demo.hr_project.forms.DataScheduleForm;
+import com.dimata.demo.hr_project.models.output.IndustrySchedule;
+import com.dimata.demo.hr_project.models.table.DataIndustry;
 import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.services.crude.DataScheduleCrude;
+import com.dimata.demo.hr_project.services.dbHandler.DataScheduleDbHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -21,6 +25,8 @@ public class DataScheduleApi {
     private DataScheduleCrude dataWorkhourCrude;
     @Autowired
 	private R2dbcEntityTemplate template;
+    @Autowired
+    private DataScheduleDbHandler dataScheduleDbHandler;
 
     public Mono<DataSchedule> createDataWorkhour(DataScheduleForm form) {
         return Mono.just(form)
@@ -31,12 +37,19 @@ public class DataScheduleApi {
         .flatMap(dataWorkhourCrude::create);
     }
 
-    public Flux<DataSchedule> getAllDataWorkhour(CommonParam param) {
+    public Flux<IndustrySchedule> getAllDataWorkhour(CommonParam param) {
         var sql = SelectQBuilder.builderWithCommonParam(DataSchedule.TABLE_NAME, param)
-            .build();
+        .addColumns(dataScheduleDbHandler.userScheduleColumn())
+        .addJoin(JoinQuery.doInnerJoin(DataIndustry.TABLE_NAME)
+            .on(WhereQuery.when(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_INDUSTRY_COL)
+            .is(DataIndustry.TABLE_NAME+"."+DataIndustry.ID_COL))
+        )
+        .build();
+        // var sql = SelectQBuilder.builderWithCommonParam(DataSchedule.TABLE_NAME, param)
+        //     .build();
         return template.getDatabaseClient()
             .sql(sql)
-            .map(DataSchedule::fromRow)
+            .map(IndustrySchedule::fromRow)
             .all();
     }
 
