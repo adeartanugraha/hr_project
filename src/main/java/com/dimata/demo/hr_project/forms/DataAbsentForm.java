@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.dimata.demo.hr_project.core.api.RecordAdapter;
 import com.dimata.demo.hr_project.core.util.jackson.TimeDeserialize;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
+import com.dimata.demo.hr_project.models.table.DataUser;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long id;
+    // private DataUser idUser;
     private Long idUser;
     private Long idToken;
     private Boolean isLate;
@@ -47,8 +49,8 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     public DataAbsent convertToRecord() {
         return DataAbsent.Builder.emptyBuilder()
             .id(id)
-            .isLate(isLate)
             .idToken(idToken)
+            .idUser(idUser)
             .idSchedule(idSchedule)
             .isLate(isLate)
             .timeScheduleIn(timeScheduleIn)

@@ -1,6 +1,12 @@
 package com.dimata.demo.hr_project.services.dbHandler;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.dimata.demo.hr_project.core.api.DbHandlerBase;
+import com.dimata.demo.hr_project.core.search.CollumnQuery;
+import com.dimata.demo.hr_project.core.search.CollumnStep;
+import com.dimata.demo.hr_project.models.table.DataIndustry;
 import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.services.repo.DataScheduleRepo;
 
@@ -44,4 +50,18 @@ public class DataScheduleDbHandler extends DbHandlerBase<DataSchedule, Long> {
             });
     }
     
+    public List<CollumnStep> userScheduleColumn() {
+        return Arrays.asList(CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.ID_COL)),
+        CollumnQuery.add(getColumnName(DataIndustry.TABLE_NAME, DataIndustry.NAME_INDUSTRY_COL)),
+        CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.ID_INDUSTRY_COL)),
+        CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.DAY_COL)),
+        CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.TIME_IN_COL)),
+        CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.TIME_OUT_COL)),
+        CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.ISOFF_COL))
+        );
+    }
+
+    public String getColumnName(String tableName, String columnName) {
+        return tableName+"."+columnName;
+    }
 }
