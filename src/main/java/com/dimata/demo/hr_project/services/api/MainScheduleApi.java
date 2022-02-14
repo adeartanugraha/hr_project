@@ -56,6 +56,26 @@ public class MainScheduleApi {
             .map(UserSchedule::fromRow)
             .all();
     }
+    public Mono<UserSchedule> getUserSchedule(Long idSchedule,Long idUser) {
+        var sql = SelectQBuilder.emptyBuilder(MainSchedule.TABLE_NAME)
+        .addColumns(mainScheduleDbHandler.mainScheduleColumn())
+        // .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
+        //     .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
+        //     .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
+        .addJoin(JoinQuery.doRightJoin(DataSchedule.TABLE_NAME)
+            .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL)
+            .is(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_COL))
+        )
+        .addWhere(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL).is(idUser))
+        .addWhere(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL).is(idSchedule))
+        .build();
+        // var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
+        //     .build();
+        return template.getDatabaseClient()
+            .sql(sql)
+            .map(UserSchedule::fromRow)
+            .one();
+    }
 
     public Mono<MainSchedule> getMainSchedule(Long id) {
         var sql = SelectQBuilder.emptyBuilder(MainSchedule.TABLE_NAME)
