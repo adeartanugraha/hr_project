@@ -1,10 +1,8 @@
 package com.dimata.demo.hr_project.forms;
 
-import java.time.LocalDate;
 
 import com.dimata.demo.hr_project.core.api.RecordAdapter;
 import com.dimata.demo.hr_project.core.util.jackson.DateDeserialize;
-import com.dimata.demo.hr_project.enums.WorkStatus;
 import com.dimata.demo.hr_project.models.table.DataIndustry;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 

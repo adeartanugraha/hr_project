@@ -49,8 +49,13 @@ public class DataAbsentDbhandler extends DbHandlerBase<DataAbsent, Long>{
     }
 
     public List<CollumnStep> userAbsentColumn() {
-        return Arrays.asList(CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.ID_COL)),
-            CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_COL)).as("id_absent")
+        return Arrays.asList(CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_COL)),
+        CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.USERNAME_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_USER_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_TOKEN_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.CHECK_IN_TIME_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.CHECK_OUT_TIME_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.IS_LATE_COL))
         );
     }
 

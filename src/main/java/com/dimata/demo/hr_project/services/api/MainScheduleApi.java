@@ -1,11 +1,16 @@
 package com.dimata.demo.hr_project.services.api;
 
 import com.dimata.demo.hr_project.core.search.CommonParam;
+import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
 import com.dimata.demo.hr_project.forms.MainScheduleForm;
+import com.dimata.demo.hr_project.models.output.UserSchedule;
+import com.dimata.demo.hr_project.models.table.DataSchedule;
+import com.dimata.demo.hr_project.models.table.DataUser;
 import com.dimata.demo.hr_project.models.table.MainSchedule;
 import com.dimata.demo.hr_project.services.crude.MainScheduleCrude;
+import com.dimata.demo.hr_project.services.dbHandler.MainScheduleDbHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -21,6 +26,8 @@ public class MainScheduleApi {
     private MainScheduleCrude dataSiswaCrude;
     @Autowired
 	private R2dbcEntityTemplate template;
+    @Autowired
+    private MainScheduleDbHandler mainScheduleDbHandler;
 
     public Mono<MainSchedule> createMainSchedule(MainScheduleForm form) {
         return Mono.just(form)
@@ -31,12 +38,22 @@ public class MainScheduleApi {
         .flatMap(dataSiswaCrude::create);
     }
 
-    public Flux<MainSchedule> getAllMainSchedule(CommonParam param) {
+    public Flux<UserSchedule> getAllMainSchedule(CommonParam param) {
         var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
-            .build();
+        .addColumns(mainScheduleDbHandler.mainScheduleColumn())
+        // .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
+        //     .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
+        //     .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
+        .addJoin(JoinQuery.doInnerJoin(DataSchedule.TABLE_NAME)
+            .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL)
+            .is(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_COL))
+        )
+        .build();
+        // var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
+        //     .build();
         return template.getDatabaseClient()
             .sql(sql)
-            .map(MainSchedule::fromRow)
+            .map(UserSchedule::fromRow)
             .all();
     }
 
