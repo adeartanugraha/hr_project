@@ -2,6 +2,7 @@ package com.dimata.demo.hr_project.Controllers;
 
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.forms.MainScheduleForm;
+import com.dimata.demo.hr_project.models.output.UserSchedule;
 import com.dimata.demo.hr_project.models.table.MainSchedule;
 import com.dimata.demo.hr_project.services.api.MainScheduleApi;
 
@@ -33,7 +34,7 @@ public class MainScheduleController {
     }
 
     @GetMapping(path = BASE_URL + "/main_schedule")
-    public Flux<MainSchedule> maintainerGetAllMainSchedule(CommonParam param) {
+    public Flux<UserSchedule> maintainerGetAllMainSchedule(CommonParam param) {
         return mainScheduleApi.getAllMainSchedule(param);
     }
 
