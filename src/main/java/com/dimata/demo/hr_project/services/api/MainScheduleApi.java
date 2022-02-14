@@ -41,13 +41,14 @@ public class MainScheduleApi {
     public Flux<UserSchedule> getAllMainSchedule(CommonParam param) {
         var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
         .addColumns(mainScheduleDbHandler.mainScheduleColumn())
-        // .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
-        //     .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
-        //     .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
         .addJoin(JoinQuery.doInnerJoin(DataSchedule.TABLE_NAME)
             .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL)
             .is(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_COL))
         )
+        // .addColumns(mainScheduleDbHandler.mainScheduleColumn())
+        .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
+            .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
+            .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL)))
         .build();
         // var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
         //     .build();

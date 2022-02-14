@@ -25,6 +25,7 @@ public class UserSchedule {
     private LocalTime timeOut;
     private Long idIndustry;
     private Long idUser;
+    private String username;
     private Integer status;
 
     public void setStatus(WorkStatus status) {
@@ -48,6 +49,7 @@ public class UserSchedule {
         result.setTimeOut(ManipulateUtil.parseRow(row, "time_out", LocalTime.class));
         result.setIdIndustry(ManipulateUtil.parseRow(row, "id_industry", Long.class));
         result.setIdUser(ManipulateUtil.parseRow(row, "id_user", Long.class));
+        result.setUsername(ManipulateUtil.parseRow(row, "username", String.class));
         result.setStatus(WorkStatus.getStatus(ManipulateUtil.parseRow(row, "status", Integer.class)));
         
         return result;

@@ -55,7 +55,7 @@ public class MainScheduleDbHandler extends DbHandlerBase<MainSchedule, Long> {
         return Arrays.asList(CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_COL)),
         CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.TIME_IN_COL)),
         CollumnQuery.add(getColumnName(DataSchedule.TABLE_NAME, DataSchedule.TIME_OUT_COL)),
-        // CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.USERNAME_COL)),
+        CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.USERNAME_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_SCHEDULE_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_INDUSTRY_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_USER_COL)),
