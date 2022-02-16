@@ -6,6 +6,7 @@ import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
 import com.dimata.demo.hr_project.forms.MainScheduleForm;
 import com.dimata.demo.hr_project.models.output.UserSchedule;
+import com.dimata.demo.hr_project.models.table.DataIndustry;
 import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.models.table.DataUser;
 import com.dimata.demo.hr_project.models.table.MainSchedule;
@@ -44,11 +45,15 @@ public class MainScheduleApi {
         .addJoin(JoinQuery.doInnerJoin(DataSchedule.TABLE_NAME)
             .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL)
             .is(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_COL))
-        )
-        // .addColumns(mainScheduleDbHandler.mainScheduleColumn())
+            )
         .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
             .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
-            .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL)))
+            .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
+            )
+        .addJoin(JoinQuery.doInnerJoin(DataIndustry.TABLE_NAME)
+            .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_INDUSTRY_COL)
+            .is(DataIndustry.TABLE_NAME+"."+DataIndustry.ID_COL))
+            )
         .build();
         // var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
         //     .build();

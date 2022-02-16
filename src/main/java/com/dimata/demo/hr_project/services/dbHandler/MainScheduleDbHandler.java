@@ -6,6 +6,7 @@ import java.util.List;
 import com.dimata.demo.hr_project.core.api.DbHandlerBase;
 import com.dimata.demo.hr_project.core.search.CollumnQuery;
 import com.dimata.demo.hr_project.core.search.CollumnStep;
+import com.dimata.demo.hr_project.models.table.DataIndustry;
 import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.models.table.DataUser;
 import com.dimata.demo.hr_project.models.table.MainSchedule;
@@ -58,6 +59,7 @@ public class MainScheduleDbHandler extends DbHandlerBase<MainSchedule, Long> {
         CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.USERNAME_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_SCHEDULE_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_INDUSTRY_COL)),
+        CollumnQuery.add(getColumnName(DataIndustry.TABLE_NAME, DataIndustry.NAME_INDUSTRY_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.ID_USER_COL)),
         CollumnQuery.add(getColumnName(MainSchedule.TABLE_NAME, MainSchedule.STATUS_COL))
         );

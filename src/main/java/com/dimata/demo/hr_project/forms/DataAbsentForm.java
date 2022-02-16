@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.dimata.demo.hr_project.core.api.RecordAdapter;
 import com.dimata.demo.hr_project.core.util.jackson.TimeDeserialize;
+import com.dimata.demo.hr_project.enums.StatusAbsent;
 import com.dimata.demo.hr_project.models.table.DataAbsent;
 import com.dimata.demo.hr_project.models.table.DataUser;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -18,17 +19,14 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long idUser;
     private Long idToken;
     private Boolean isLate;
+    private StatusAbsent status;
     private Long idSchedule;
 
     @JsonDeserialize(converter = TimeDeserialize.class)
      private LocalDateTime timeScheduleIn;
-     @JsonDeserialize(converter = TimeDeserialize.class)
-     private LocalDateTime timeScheduleOut;
     
     @JsonDeserialize(converter = TimeDeserialize.class)
-    private LocalDateTime checkInTime;
-    @JsonDeserialize(converter = TimeDeserialize.class)
-     private LocalDateTime checkOutTime;
+    private LocalDateTime usedAt;
     
     
    
@@ -39,9 +37,8 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
         return DataAbsent.Builder.createNewRecord(idUser,idSchedule)
             .id(id)
             .isLate(isLate)
+            .status(status)
             .timeScheduleIn(timeScheduleIn)
-            .timeScheduleOut(timeScheduleOut)
-            .checkInTime(checkInTime)
             .idToken(idToken)
             .build();
     }
@@ -54,7 +51,6 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
             .idSchedule(idSchedule)
             .isLate(isLate)
             .timeScheduleIn(timeScheduleIn)
-            .timeScheduleOut(timeScheduleOut)
             .build();
     }
 }
