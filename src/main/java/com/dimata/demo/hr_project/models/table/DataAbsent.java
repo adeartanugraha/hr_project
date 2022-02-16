@@ -2,6 +2,7 @@ package com.dimata.demo.hr_project.models.table;
 
 
 import java.time.LocalDateTime;
+
 import java.util.Objects;
 
 
@@ -86,6 +87,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
                 .status(changeItOrNot(newRecord.getStatus(),(newRecord.getStatus())))
                 .isLate(changeItOrNot(newRecord.getIsLate(),(newRecord.getIsLate())))
                 .usedAt(oldRecord.getUsedAt());
+
                
         }
 
@@ -152,7 +154,6 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         result.setIdSchedule(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
         result.setUsedAt(ManipulateUtil.parseRow(row, USED_AT_COL, LocalDateTime.class));
         result.setStatus(StatusAbsent.getStatusAbsent(ManipulateUtil.parseRow(row, STATUS_COL, Integer.class)));
-       
         return result;
     }
 
@@ -171,9 +172,9 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
             usedAt = LocalDateTime.now();
             isLate = usedAt.isAfter(timeScheduleIn);
             return true;
-        }
-
-        return false;
+        }else{
+            return false;
+            }
     }
     
     
