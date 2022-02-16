@@ -161,21 +161,30 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
 
     @Override
     public boolean isNew() {
-        if (id==null&& insertId==null && status==0) {
+        usedAt = LocalDateTime.now();
+        if (id==null&& insertId==null) {
             id = new GenerateUtil().generateOID();
-            usedAt = LocalDateTime.now();
-            isLate = usedAt.isAfter(timeScheduleIn);
+
+            if(status==0){
+                isLate = usedAt.isAfter(timeScheduleIn);
+            }else if(status==1){
+                isLate = usedAt.isBefore(timeScheduleIn);  }         
+            
             return true;
-        } else if (id==null&& insertId==null&&status == 1) {
-            id = new GenerateUtil().generateOID();
-            usedAt = LocalDateTime.now();
-            isLate = usedAt.isBefore(timeScheduleIn);
-            status = 1;
+        } else if (id==null) {
+            id = insertId;
+           
+            if(status==0){
+                isLate = usedAt.isAfter(timeScheduleIn);
+            }else if(status==1){
+                isLate = usedAt.isBefore(timeScheduleIn); }     
+
             return true;
         }else{
             return false;
             }
     }
+    
     
     
 
