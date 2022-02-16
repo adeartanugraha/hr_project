@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class UserAbsent {
     private Long idUser;
 
-    private Long idAbsent;
+    private Long id;
     private Long idSchedule;
     private Long idToken; 
     private String username; 
@@ -25,20 +25,17 @@ public class UserAbsent {
     private Boolean isLate;
     
     @JsonSerialize(converter = TimeSerialize.class)
-    private LocalDateTime checkInTime ;
-    @JsonSerialize(converter = TimeSerialize.class)
-    private LocalDateTime checkOutTime;
+    private LocalDateTime usedAt ;
 
     public static UserAbsent fromRow(Row row) {
         var result = new UserAbsent();
-        result.setIdAbsent(ManipulateUtil.parseRow(row, "id_absent", Long.class));
+        result.setId(ManipulateUtil.parseRow(row, "id_absent", Long.class));
         result.setUsername(ManipulateUtil.parseRow(row, "username", String.class));
         result.setIdUser(ManipulateUtil.parseRow(row, "id_user", Long.class));
         result.setIdToken(ManipulateUtil.parseRow(row, "id_token", Long.class));
         result.setIsLate(ManipulateUtil.parseRow(row, "is_late", Boolean.class));
         result.setIdSchedule(ManipulateUtil.parseRow(row, "id_schedule", Long.class));
-        result.setCheckInTime(ManipulateUtil.parseRow(row,"check_in_time", LocalDateTime.class));
-        result.setCheckOutTime(ManipulateUtil.parseRow(row, "check_out_time", LocalDateTime.class));
+        result.setUsedAt(ManipulateUtil.parseRow(row,"used_at", LocalDateTime.class));
         return result;
     }
 }
