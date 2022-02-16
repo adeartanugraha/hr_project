@@ -53,8 +53,8 @@ public class DataAbsentDbhandler extends DbHandlerBase<DataAbsent, Long>{
         CollumnQuery.add(getColumnName(DataUser.TABLE_NAME, DataUser.USERNAME_COL)),
         CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_USER_COL)),
         CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.ID_TOKEN_COL)),
-        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.CHECK_IN_TIME_COL)),
-        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.CHECK_OUT_TIME_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.USED_AT_COL)),
+        CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.STATUS_COL)),
         CollumnQuery.add(getColumnName(DataAbsent.TABLE_NAME, DataAbsent.IS_LATE_COL))
         );
     }
