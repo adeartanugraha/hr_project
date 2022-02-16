@@ -1,5 +1,7 @@
 package com.dimata.demo.hr_project.services.api;
 
+import java.time.LocalDateTime;
+
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
@@ -11,6 +13,7 @@ import com.dimata.demo.hr_project.models.table.DataUser;
 import com.dimata.demo.hr_project.models.table.MainSchedule;
 import com.dimata.demo.hr_project.services.crude.MainScheduleCrude;
 import com.dimata.demo.hr_project.services.dbHandler.MainScheduleDbHandler;
+import com.google.api.client.util.DateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -56,18 +59,18 @@ public class MainScheduleApi {
             .map(UserSchedule::fromRow)
             .all();
     }
-    public Mono<UserSchedule> getUserSchedule(Long idSchedule,Long idUser) {
+    public Mono<UserSchedule> getUserSchedule(Long day,Long idUser) {
         var sql = SelectQBuilder.emptyBuilder(MainSchedule.TABLE_NAME)
         .addColumns(mainScheduleDbHandler.mainScheduleColumn())
         // .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
         //     .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
         //     .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
-        .addJoin(JoinQuery.doRightJoin(DataSchedule.TABLE_NAME)
+        .addJoin(JoinQuery.doInnerJoin(DataSchedule.TABLE_NAME)
             .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL)
             .is(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_COL))
         )
         .addWhere(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL).is(idUser))
-        .addWhere(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL).is(idSchedule))
+        .addWhere(WhereQuery.when(DataSchedule.TABLE_NAME+"."+DataSchedule.DAY_COL).is(day))
         .build();
         // var sql = SelectQBuilder.builderWithCommonParam(MainSchedule.TABLE_NAME, param)
         //     .build();
@@ -76,7 +79,7 @@ public class MainScheduleApi {
             .map(UserSchedule::fromRow)
             .one();
     }
-
+    
     public Mono<MainSchedule> getMainSchedule(Long id) {
         var sql = SelectQBuilder.emptyBuilder(MainSchedule.TABLE_NAME)
             .addWhere(WhereQuery.when(MainSchedule.ID_COL).is(id))

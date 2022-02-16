@@ -1,5 +1,7 @@
 package com.dimata.demo.hr_project.models.output;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.dimata.demo.hr_project.core.util.ManipulateUtil;
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class UserSchedule {
     private Long id;
     private Long idSchedule;
+    private Long day;
     @JsonSerialize(converter = OnlyTimeSerialize.class)
     private LocalTime timeIn;
     @JsonSerialize(converter = OnlyTimeSerialize.class)
@@ -26,6 +29,7 @@ public class UserSchedule {
     private Long idIndustry;
     private Long idUser;
     private Integer status;
+    
 
     public void setStatus(WorkStatus status) {
         if (status != null) {
@@ -46,11 +50,13 @@ public class UserSchedule {
         result.setIdSchedule(ManipulateUtil.parseRow(row, "id_schedule", Long.class));
         result.setTimeIn(ManipulateUtil.parseRow(row, "time_in", LocalTime.class));
         result.setTimeOut(ManipulateUtil.parseRow(row, "time_out", LocalTime.class));
+        result.setDay(ManipulateUtil.parseRow(row, "day", Long.class));
         result.setIdIndustry(ManipulateUtil.parseRow(row, "id_industry", Long.class));
         result.setIdUser(ManipulateUtil.parseRow(row, "id_user", Long.class));
         result.setStatus(WorkStatus.getStatus(ManipulateUtil.parseRow(row, "status", Integer.class)));
         
         return result;
     }
+  
 
 }

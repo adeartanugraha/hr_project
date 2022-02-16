@@ -38,6 +38,7 @@ public class MainSchedule implements UpdateAvailable<MainSchedule>, Persistable<
     public static final String ID_INDUSTRY_COL = "id_industry";
     public static final String ID_USER_COL = "id_user";
     public static final String STATUS_COL = "status";
+    public static final String DAY_COL = "day";
 
     @Accessors(fluent = true)
     @Setter
