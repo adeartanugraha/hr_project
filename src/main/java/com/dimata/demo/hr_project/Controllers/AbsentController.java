@@ -1,5 +1,7 @@
 package com.dimata.demo.hr_project.Controllers;
 
+import java.time.LocalDateTime;
+
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.forms.DataAbsentForm;
 import com.dimata.demo.hr_project.models.output.UserAbsent;
@@ -44,6 +46,16 @@ public class AbsentController {
     public Mono<DataAbsent> maintainerGetDataAbsent(@PathVariable("id_absent") Long id_absent) {
      
         return dataAbsentApi.getDataAbsent(id_absent);
+    }
+    @GetMapping(path = BASE_URL + "/absent/in/user/{id_user}")
+    public Mono<DataAbsent> maintainerGetCheckIn(@PathVariable("id_user") Long id_user) {
+     
+        return dataAbsentApi.getCheckIn(id_user);
+    }
+    @GetMapping(path = BASE_URL + "/absent/out/user/{id_user}")
+    public Mono<DataAbsent> maintainerGetCheckOut(@PathVariable("id_user") Long id_user) {
+     
+        return dataAbsentApi.getCheckOut(id_user);
     }
     @GetMapping(path = BASE_URL + "/absent/user/{id_user}")
     public Flux<DataAbsent> maintainerGetDataAbsentUser(@PathVariable("id_user") Long id_user) {

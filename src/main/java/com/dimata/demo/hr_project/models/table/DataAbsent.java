@@ -40,7 +40,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     public static final String TABLE_NAME = "data_absent";
     public static final String ID_COL = "id_absent";
     public static final String ID_USER_COL = "id_user";
-    public static final String ID_INDUSTRY_COL = "id_schedule";
+    public static final String ID_SCHEDULE_COL = "id_schedule";
     public static final String ID_TOKEN_COL = "id_token";
     public static final String USED_AT_COL = "used_at";
     public static final String STATUS_COL = "status";
@@ -151,7 +151,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         result.setIdUser(ManipulateUtil.parseRow(row, ID_USER_COL, Long.class));
         result.setIdToken(ManipulateUtil.parseRow(row, ID_TOKEN_COL, Long.class));
         result.setIsLate(ManipulateUtil.parseRow(row, IS_LATE_COL, Boolean.class));
-        result.setIdSchedule(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
+        result.setIdSchedule(ManipulateUtil.parseRow(row, ID_SCHEDULE_COL, Long.class));
         result.setUsedAt(ManipulateUtil.parseRow(row, USED_AT_COL, LocalDateTime.class));
         result.setStatus(StatusAbsent.getStatusAbsent(ManipulateUtil.parseRow(row, STATUS_COL, Integer.class)));
         return result;
@@ -161,16 +161,16 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
 
     @Override
     public boolean isNew() {
-        if (id == null && insertId == null) {
+        if (id==null&& insertId==null && status==0) {
             id = new GenerateUtil().generateOID();
             usedAt = LocalDateTime.now();
-            Objects.requireNonNull(timeScheduleIn,"ksong");
             isLate = usedAt.isAfter(timeScheduleIn);
             return true;
-        } else if (id == null) {
-            id = insertId;
+        } else if (id==null&& insertId==null&&status == 1) {
+            id = new GenerateUtil().generateOID();
             usedAt = LocalDateTime.now();
-            isLate = usedAt.isAfter(timeScheduleIn);
+            isLate = usedAt.isBefore(timeScheduleIn);
+            status = 1;
             return true;
         }else{
             return false;

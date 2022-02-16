@@ -68,9 +68,7 @@ public class MainScheduleApi {
     public Mono<UserSchedule> getUserSchedule(Long day,Long idUser) {
         var sql = SelectQBuilder.emptyBuilder(MainSchedule.TABLE_NAME)
         .addColumns(mainScheduleDbHandler.mainScheduleColumn())
-        // .addJoin(JoinQuery.doInnerJoin(DataUser.TABLE_NAME)
-        //     .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_USER_COL)
-        //     .is(DataUser.TABLE_NAME+"."+DataUser.ID_COL))
+     
         .addJoin(JoinQuery.doInnerJoin(DataSchedule.TABLE_NAME)
             .on(WhereQuery.when(MainSchedule.TABLE_NAME+"."+MainSchedule.ID_SCHEDULE_COL)
             .is(DataSchedule.TABLE_NAME+"."+DataSchedule.ID_COL))

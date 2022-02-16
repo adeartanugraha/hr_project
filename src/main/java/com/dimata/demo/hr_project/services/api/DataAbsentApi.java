@@ -1,6 +1,9 @@
 package com.dimata.demo.hr_project.services.api;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.dimata.demo.hr_project.core.search.CollumnQuery;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.JoinQuery;
@@ -14,6 +17,7 @@ import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.models.table.DataUser;
 import com.dimata.demo.hr_project.services.crude.DataAbsentCrude;
 import com.dimata.demo.hr_project.services.dbHandler.DataAbsentDbhandler;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -60,6 +64,36 @@ public class DataAbsentApi {
     public Mono<DataAbsent> getDataAbsent(Long id) {
         var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
             .addWhere(WhereQuery.when(DataAbsent.ID_COL).is(id))
+            .build();
+        System.out.println(sql);
+        return template.getDatabaseClient()
+            .sql(sql)
+            .map(DataAbsent::fromRow)
+            .one();
+    }
+    public Mono<DataAbsent> getCheckIn(Long id_user) {
+        var a=LocalDate.now();
+        var b=LocalDateTime.now();
+
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+            .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(id_user))
+            .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
+            .addWhere(WhereQuery.when(DataAbsent.STATUS_COL).is(0))
+            .build();
+        System.out.println(sql);
+        return template.getDatabaseClient()
+            .sql(sql)
+            .map(DataAbsent::fromRow)
+            .one();
+    }
+    public Mono<DataAbsent> getCheckOut(Long id_user) {
+        var a=LocalDate.now();
+        var b=LocalDateTime.now();
+
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+            .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(id_user))
+            .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
+            .addWhere(WhereQuery.when(DataAbsent.STATUS_COL).is(1))
             .build();
         System.out.println(sql);
         return template.getDatabaseClient()
