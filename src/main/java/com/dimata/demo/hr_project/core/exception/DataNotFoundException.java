@@ -16,6 +16,7 @@ public class DataNotFoundException extends RuntimeException {
     private final String message;
     
 
+    
     public DataNotFoundException(String parameter) {
         super(parameter);
         this.message = parameter;

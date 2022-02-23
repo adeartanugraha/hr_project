@@ -1,6 +1,7 @@
 package com.dimata.demo.hr_project.services.api;
 
 
+import com.dimata.demo.hr_project.core.exception.DataNotFoundException;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
@@ -49,7 +50,8 @@ public class DataUserApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(DataUser::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("data tidak ditemukan")));
     }
 
     public Mono<DataUser> updateDataUser(Long id, DataUserForm form) {
