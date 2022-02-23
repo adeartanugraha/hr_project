@@ -63,6 +63,12 @@ public class AbsentController {
         return dataAbsentApi.getDataAbsentUser(id_user);
     }
 
+    @GetMapping(path = BASE_URL + "/absent/today/user/{id_user}")
+    public Flux<DataAbsent> maintainerGetDataAbsentUserToday(@PathVariable("id_user") Long id_user) {
+     
+        return dataAbsentApi.getDataAbsentUserToday(id_user);
+    }
+
     @PostMapping(path = BASE_URL + "/absent/{id_absent}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<DataAbsent> maintainerUpdateDataAbsent(@PathVariable("id_absent") long idAbsent, @RequestBody DataAbsentForm form) {
         return dataAbsentApi.updateDataAbsent(idAbsent, form);

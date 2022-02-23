@@ -116,6 +116,20 @@ public class DataAbsentApi {
         .all()
         .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
+    public Flux<DataAbsent> getDataAbsentUserToday(Long idUser) {
+        var a=LocalDate.now();
+        var b=LocalDateTime.now();
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+        .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(idUser))
+        .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
+        .build();
+    System.out.println(sql);
+    return template.getDatabaseClient()
+        .sql(sql)
+        .map(DataAbsent::fromRow)
+        .all()
+        .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
+    }
   
     public Mono<DataAbsent> updateDataAbsent(Long id, DataAbsentForm form) {
         return Mono.zip(Mono.just(id), Mono.just(form))
