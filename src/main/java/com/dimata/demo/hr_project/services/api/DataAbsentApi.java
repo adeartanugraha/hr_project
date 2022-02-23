@@ -70,7 +70,8 @@ public class DataAbsentApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(DataAbsent::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
     public Mono<DataAbsent> getCheckIn(Long id_user) {
         var a=LocalDate.now();
@@ -101,7 +102,8 @@ public class DataAbsentApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(DataAbsent::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
     public Flux<DataAbsent> getDataAbsentUser(Long idUser) {
         var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
@@ -111,7 +113,8 @@ public class DataAbsentApi {
     return template.getDatabaseClient()
         .sql(sql)
         .map(DataAbsent::fromRow)
-        .all();
+        .all()
+        .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
   
     public Mono<DataAbsent> updateDataAbsent(Long id, DataAbsentForm form) {
