@@ -4,6 +4,7 @@ package com.dimata.demo.hr_project.services.api;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.dimata.demo.hr_project.core.exception.DataNotFoundException;
 import com.dimata.demo.hr_project.core.search.CollumnQuery;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.JoinQuery;
@@ -84,7 +85,8 @@ public class DataAbsentApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(DataAbsent::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
     public Mono<DataAbsent> getCheckOut(Long id_user) {
         var a=LocalDate.now();
@@ -125,3 +127,5 @@ public class DataAbsentApi {
             .flatMap(dataAbsentCrude::updateRecord);
     }    
 }
+
+
