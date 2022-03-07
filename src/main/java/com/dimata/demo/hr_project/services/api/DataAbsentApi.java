@@ -9,6 +9,8 @@ import com.dimata.demo.hr_project.core.search.CollumnQuery;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.JoinQueryStep;
+import com.dimata.demo.hr_project.core.search.LimitQuery;
+import com.dimata.demo.hr_project.core.search.LimitQueryStep;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
 import com.dimata.demo.hr_project.forms.DataAbsentForm;
@@ -76,11 +78,15 @@ public class DataAbsentApi {
     public Mono<DataAbsent> getCheckIn(Long id_user) {
         var a=LocalDate.now();
         var b=LocalDateTime.now();
+       
 
+        
         var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
             .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(id_user))
             .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
             .addWhere(WhereQuery.when(DataAbsent.STATUS_COL).is(0))
+            .setSort(DataAbsent.USED_AT_COL)
+            .setLimit(LimitQuery.of(1, 1))
             .build();
         System.out.println(sql);
         return template.getDatabaseClient()
@@ -97,6 +103,8 @@ public class DataAbsentApi {
             .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(id_user))
             .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
             .addWhere(WhereQuery.when(DataAbsent.STATUS_COL).is(1))
+            .setSort(DataAbsent.USED_AT_COL)
+            .setLimit(LimitQuery.of(1, 1))
             .build();
         System.out.println(sql);
         return template.getDatabaseClient()
