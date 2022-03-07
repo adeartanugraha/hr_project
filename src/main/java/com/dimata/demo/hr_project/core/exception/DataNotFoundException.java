@@ -14,6 +14,7 @@ public class DataNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 5558238161985653783L;
     private static final String DEFAULT_POSTFIX = " tidak ditemukan";
     private final String message;
+    
 
     
     public DataNotFoundException(String parameter) {
