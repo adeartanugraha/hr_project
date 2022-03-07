@@ -2,6 +2,7 @@ package com.dimata.demo.hr_project.services.api;
 
 import java.time.LocalDateTime;
 
+import com.dimata.demo.hr_project.core.exception.DataNotFoundException;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
@@ -81,7 +82,8 @@ public class MainScheduleApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(UserSchedule::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
     
     public Mono<MainSchedule> getMainSchedule(Long id) {
