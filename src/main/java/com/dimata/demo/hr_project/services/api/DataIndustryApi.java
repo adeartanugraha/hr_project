@@ -1,6 +1,7 @@
 package com.dimata.demo.hr_project.services.api;
 
 
+import com.dimata.demo.hr_project.core.exception.DataNotFoundException;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
@@ -49,7 +50,8 @@ public class DataIndustryApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(DataIndustry::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
 
     public Mono<DataIndustry> updateDataIndustry(Long id, DataIndustryForm form) {
