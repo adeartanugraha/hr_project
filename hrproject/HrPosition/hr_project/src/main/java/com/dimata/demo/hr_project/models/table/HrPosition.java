@@ -109,7 +109,7 @@ public class HrPosition implements UpdateAvailable<HrPosition>, Persistable<Long
         @Setter(AccessLevel.PRIVATE)
         private boolean newRecord = false;
 
-        public static Builder createNewRecord(String position, String city, String npwp, String province, String region, String subRegion, String village) {
+        public static Builder createNewRecord(String position) {
             return new Builder().newRecord(true)
                 .position(Objects.requireNonNull(position, "position tidak boleh kosong"));
                 // .city(Objects.requireNonNull(city, "City tidak boleh kosong"))
