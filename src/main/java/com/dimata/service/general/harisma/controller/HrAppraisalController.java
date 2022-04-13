@@ -2,9 +2,13 @@ package com.dimata.service.general.harisma.controller;
 
 import com.dimata.service.general.harisma.service.HrAppraisalHandler;
 
+import com.dimata.service.general.harisma.model.body.HrAppraisalBody;
+import org.jboss.resteasy.annotations.jaxrs.QueryParam;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import java.util.List;
 
 @Path("api/v1/maintainer/appraisal")
 public class HrAppraisalController {
@@ -12,7 +16,13 @@ public class HrAppraisalController {
     HrAppraisalHandler hrAppraisalHandler;
 
     @GET
+    @Path("/tes")
     public String test() {
         return "TEST";
+    }
+
+    @GET
+    public List<HrAppraisalBody> getAllAppraisal(@QueryParam long id){
+        return hrAppraisalHandler.getAllHrAppraisal(id);
     }
 }

@@ -1,9 +1,9 @@
 package com.dimata.service.general.harisma.service;
 
-import com.dimata.service.general.harisma.entity.HrAppMain;
+//import com.dimata.service.general.harisma.entity.HrAppMain;
 import com.dimata.service.general.harisma.entity.HrAppraisal;
-import com.dimata.service.general.harisma.entity.HrAssFormItem;
-import com.dimata.service.general.harisma.exception.DataNotFoundException;
+//import com.dimata.service.general.harisma.entity.HrAssFormItem;
+//import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
 import com.dimata.service.general.harisma.exception.FormatException;
 import com.dimata.service.general.harisma.model.body.HrAppraisalBody;
@@ -18,9 +18,9 @@ public class HrAppraisalHandler {
         if (body.getHrAppraisalId() == null) {
             throw new FormatException(ExceptionCode.F_NV);
         }
-        var AppMain = fetchAppMain(body.getHrAppMainId());
-        var formItem = fetchAssFormItem(body.getAssFormItemId());
-        var hrAppraisal = saveNewHrAppraisal(body, AppMain, formItem);
+//        var AppMain = fetchAppMain(body.getHrAppMainId());
+//        var formItem = fetchAssFormItem(body.getAssFormItemId());
+        var hrAppraisal = saveNewHrAppraisal(body);
         return HrAppraisalBody.fromHrAppraisal(hrAppraisal);
     }
 
@@ -31,23 +31,23 @@ public class HrAppraisalHandler {
                 .collect(Collectors.toList());
     }
 
-    private HrAppMain fetchAppMain(long baseId) {
-        return (HrAppMain) HrAppMain.findByIdOptional(baseId)
-                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CNT_NF));
-    }
+//    private HrAppMain fetchAppMain(long baseId) {
+//        return (HrAppMain) HrAppMain.findByIdOptional(baseId)
+//                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CNT_NF));
+//    }
+//
+//    private HrAssFormItem fetchAssFormItem(long baseId) {
+//        return (HrAssFormItem) HrAssFormItem.findByIdOptional(baseId)
+//                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CNT_NF));
+//    }
 
-    private HrAssFormItem fetchAssFormItem(long baseId) {
-        return (HrAssFormItem) HrAssFormItem.findByIdOptional(baseId)
-                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CNT_NF));
-    }
-
-    private HrAppraisal saveNewHrAppraisal(HrAppraisalBody body, HrAppMain hrAppMain, HrAssFormItem hrAssFormItem) {
+    private HrAppraisal saveNewHrAppraisal(HrAppraisalBody body) {
         var hrAppraisal = new HrAppraisal();
         hrAppraisal.empComment = body.getEmpComment();
         hrAppraisal.assComment = body.getAssComment();
         hrAppraisal.rating = body.getRating();
-        hrAppraisal.hrAppMain = hrAppMain;
-        hrAppraisal.hrAssFormItem = hrAssFormItem;
+        hrAppraisal.hrAppMain = body.getHrAppMainId();
+        hrAppraisal.hrAssFormItem = body.getAssFormItemId();
         hrAppraisal.answer1 = body.getAnswer1();
         hrAppraisal.answer2 = body.getAnswer2();
         hrAppraisal.answer3 = body.getAnswer3();

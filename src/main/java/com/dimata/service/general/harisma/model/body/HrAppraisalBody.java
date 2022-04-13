@@ -2,24 +2,27 @@ package com.dimata.service.general.harisma.model.body;
 
 import com.dimata.service.general.harisma.entity.HrAppraisal;
 import lombok.Data;
+import org.hibernate.type.TextType;
+
+import java.math.BigDecimal;
 
 @Data
 public class HrAppraisalBody {
     private Long hrAppraisalId;
-    private String empComment;
-    private String assComment;
+    private TextType empComment;
+    private TextType assComment;
     private Double rating;
     private Long hrAppMainId;
     private Long assFormItemId;
-    private String answer1;
-    private String answer2;
-    private String answer3;
-    private String answer4;
-    private String answer5;
-    private String answer6;
-    private Double realization;
+    private TextType answer1;
+    private TextType answer2;
+    private TextType answer3;
+    private TextType answer4;
+    private TextType answer5;
+    private TextType answer6;
+    private BigDecimal realization;
     private String evidence;
-    private Double point;
+    private BigDecimal point;
     private Double weight;
     private Long kpiId;
 
@@ -29,8 +32,8 @@ public class HrAppraisalBody {
         output.setEmpComment(ent.empComment);
         output.setAssComment(ent.assComment);
         output.setRating(ent.rating);
-        output.setHrAppMainId(ent.hrAppMain.id);
-        output.setAssFormItemId(ent.hrAssFormItem.id);
+        output.setHrAppMainId(ent.hrAppMain);
+        output.setAssFormItemId(ent.hrAssFormItem);
         output.setAnswer1(ent.answer1);
         output.setAnswer2(ent.answer2);
         output.setAnswer3(ent.answer3);
