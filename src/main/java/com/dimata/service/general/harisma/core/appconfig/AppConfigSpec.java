@@ -10,25 +10,25 @@ import java.util.Objects;
  * 
  * @author Hariyogi
  **/
-public interface AppConfigSpec {
-    /**
-     * Validasi AppConfig sebelum di simpan ke DB.
-     * 
-     * @param entity Entity config.
-     * @return config yang diupdate atau disimpan.
-     */
-    AppConfig validate(AppConfig entity);
-
-    /**
-     * Validasi input entity sebelum menyimpan kedalam DB.
-     * 
-     * @param entity Entity.
-     */
-    default void validateInput(AppConfig entity) {
-        Objects.requireNonNull(entity, "AppConfig is null");
-        Objects.requireNonNull(entity.value, "Value can't be null");
-        Objects.requireNonNull(entity.applicationId, "ApplicationId can't be null");
-    }
-
-
-}
+//public interface AppConfigSpec {
+//    /**
+//     * Validasi AppConfig sebelum di simpan ke DB.
+//     *
+//     * @param entity Entity config.
+//     * @return config yang diupdate atau disimpan.
+//     */
+//    AppConfig validate(AppConfig entity);
+//
+//    /**
+//     * Validasi input entity sebelum menyimpan kedalam DB.
+//     *
+//     * @param entity Entity.
+//     */
+//    default void validateInput(AppConfig entity) {
+//        Objects.requireNonNull(entity, "AppConfig is null");
+//        Objects.requireNonNull(entity.value, "Value can't be null");
+//        Objects.requireNonNull(entity.applicationId, "ApplicationId can't be null");
+//    }
+//
+//
+//}
