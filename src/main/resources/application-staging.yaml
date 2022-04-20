@@ -1,6 +1,6 @@
 spring:
   r2dbc:
-    url: r2dbc:mysql://13.214.234.176:3306:3306/harisma
+    url: r2dbc:mysql://13.214.234.176:3306:3306/hr_project
     username: esemeton
     password: dsj4esemetonserversql
   main:
