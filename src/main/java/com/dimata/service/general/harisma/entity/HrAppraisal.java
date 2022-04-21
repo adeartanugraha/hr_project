@@ -2,41 +2,40 @@ package com.dimata.service.general.harisma.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
-import org.hibernate.type.TextType;
+import org.hibernate.annotations.Type;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Entity
 @Table(name = "hr_appraisal")
 public class HrAppraisal extends PanacheEntityBase {
     @Id
-    @GeneratedValue(generator = "dimata_id_gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//,generator = "dimata_id_gen")
     @Column(name = "HR_APPRAISAL_ID")
     public Long id;
 
     @Column(name = "EMP_COMMENT")
     @NotBlank
-    public TextType empComment;
+    @Type(type = "text")
+    public String empComment;
 
     @Column(name = "ASS_COMMENT")
     @NotBlank
-    public TextType assComment;
+    @Type(type = "text")
+    public String assComment;
 
     @Column(name = "RATING")
     @NotBlank
     public Double rating;
-
-    @Column(name = "HR_APP_MAIN_ID")
-    @NotNull
+    @Column(name = "HR_APP_MAIN_ID", nullable = false)
     public Long hrAppMain;
 
-    @Column(name = "ASS_FORM_ITEM_ID")
-    @NotBlank
+    @Column(name = "ASS_FORM_ITEM_ID", nullable = false)
     public Long hrAssFormItem;
 
 //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -49,27 +48,33 @@ public class HrAppraisal extends PanacheEntityBase {
 
     @Column(name = "ANSWER_1")
     @NotNull
-    public TextType answer1;
+    @Type(type = "text")
+    public String answer1;
 
     @Column(name = "ANSWER_2")
     @NotNull
-    public TextType answer2;
+    @Type(type = "text")
+    public String answer2;
 
     @Column(name = "ANSWER_3")
     @NotNull
-    public TextType answer3;
+    @Type(type = "text")
+    public String answer3;
 
     @Column(name = "ANSWER_4")
     @NotNull
-    public TextType answer4;
+    @Type(type = "text")
+    public String answer4;
 
     @Column(name = "ANSWER_5")
     @NotNull
-    public TextType answer5;
+    @Type(type = "text")
+    public String answer5;
 
     @Column(name = "ANSWER_6")
     @NotNull
-    public TextType answer6;
+    @Type(type = "text")
+    public String answer6;
 
     @Column(name = "REALIZATION")
     @NotBlank
@@ -93,20 +98,8 @@ public class HrAppraisal extends PanacheEntityBase {
 
     //---------------- ACTIVE RECORD
 
-//    public static boolean isAppExist(long appId, long main) {
-//        var count = count("id = ?1 and hrAppMain", appId, main);
-//        return count > 0;
-//    }
-
     public static Optional<HrAppraisal> findById(long id) {
         return find("id = ?1", id).firstResultOptional();
     }
 
-//    public static List<HrAppraisal> findByAppMain(long appMain) {
-//        return list("hrAppMain.id = ?1", appMain);
-//    }
-//
-//    public static List<HrAppraisal> findByAssFormItem(long formItem) {
-//        return list("hrAssFormItem.id = ?1", formItem);
-//    }
 }

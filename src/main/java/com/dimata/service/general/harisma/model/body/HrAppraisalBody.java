@@ -3,23 +3,26 @@ package com.dimata.service.general.harisma.model.body;
 import com.dimata.service.general.harisma.entity.HrAppraisal;
 import lombok.Data;
 import org.hibernate.type.TextType;
+import org.w3c.dom.Text;
 
+import java.awt.*;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 public class HrAppraisalBody {
     private Long hrAppraisalId;
-    private TextType empComment;
-    private TextType assComment;
+    private String empComment;
+    private String  assComment;
     private Double rating;
     private Long hrAppMainId;
     private Long assFormItemId;
-    private TextType answer1;
-    private TextType answer2;
-    private TextType answer3;
-    private TextType answer4;
-    private TextType answer5;
-    private TextType answer6;
+    private String answer1;
+    private String answer2;
+    private String answer3;
+    private String answer4;
+    private String  answer5;
+    private String answer6;
     private BigDecimal realization;
     private String evidence;
     private BigDecimal point;
