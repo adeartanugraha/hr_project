@@ -1,13 +1,11 @@
 package com.dimata.service.general.harisma.model.body;
 
+import static com.dimata.service.general.harisma.core.util.ManipulateUtil.changeItOrNot;
+
 import com.dimata.service.general.harisma.entity.HrAppraisal;
 import lombok.Data;
-import org.hibernate.type.TextType;
-import org.w3c.dom.Text;
 
-import java.awt.*;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 public class HrAppraisalBody {
@@ -21,7 +19,7 @@ public class HrAppraisalBody {
     private String answer2;
     private String answer3;
     private String answer4;
-    private String  answer5;
+    private String answer5;
     private String answer6;
     private BigDecimal realization;
     private String evidence;
@@ -49,5 +47,25 @@ public class HrAppraisalBody {
         output.setWeight(ent.weight);
         output.setKpiId(ent.kpiId);
         return output;
+    }
+
+    public HrAppraisal updateAppraisal(HrAppraisal appraisal) {
+        appraisal.empComment = changeItOrNot(empComment, appraisal.empComment);
+        appraisal.assComment = changeItOrNot(assComment, appraisal.assComment);
+        appraisal.rating = changeItOrNot(rating, appraisal.rating);
+        appraisal.hrAppMain = changeItOrNot(hrAppMainId, appraisal.hrAppMain);
+        appraisal.hrAssFormItem = changeItOrNot(assFormItemId, appraisal.hrAssFormItem);
+        appraisal.answer1 = changeItOrNot(answer1, appraisal.answer1);
+        appraisal.answer2 = changeItOrNot(answer2, appraisal.answer2);
+        appraisal.answer3 = changeItOrNot(answer3, appraisal.answer3);
+        appraisal.answer4 = changeItOrNot(answer4, appraisal.answer4);
+        appraisal.answer5 = changeItOrNot(answer5, appraisal.answer5);
+        appraisal.answer6 = changeItOrNot(answer6, appraisal.answer6);
+        appraisal.realization = changeItOrNot(realization, appraisal.realization);
+        appraisal.evidence = changeItOrNot(evidence, appraisal.evidence);
+        appraisal.point = changeItOrNot(point, appraisal.point);
+        appraisal.weight = changeItOrNot(weight, appraisal.weight);
+        appraisal.kpiId = changeItOrNot(kpiId, appraisal.kpiId);
+        return appraisal;
     }
 }

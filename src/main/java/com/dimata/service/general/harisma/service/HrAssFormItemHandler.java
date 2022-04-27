@@ -18,16 +18,30 @@ public class HrAssFormItemHandler {
                 .collect(Collectors.toList());
     }
 
-    public HrAssFormItemBody updateFormItem(HrAssFormItemBody body) {
-        if (body.getIdHrAssFormItem() == null) {
-            throw new FormatException(ExceptionCode.F_NV);
+    public List<HrAssFormItemBody> getAllHrFormItem() {
+        return HrAssFormItem.getAllData()
+                .stream()
+                .map(HrAssFormItemBody::formHrAssFormItem)
+                .collect(Collectors.toList());
+    }
+
+    public HrAssFormItem updateFormItem(HrAssFormItemBody body) {
+        HrAssFormItem formItem = HrAssFormItem.findById(body.getIdAssFormSection());
+        if (formItem == null) {
+            throw new FormatException(ExceptionCode.DATA_NOT_FOUND, "Data not found");
         }
-        var hrAssFormItem = saveNewUpdateForm(body);
+        body.updateFormItem(formItem);
+        return formItem;
+    }
+
+    public HrAssFormItemBody createFormItem(HrAssFormItemBody body) {
+        var hrAssFormItem = saveNewForm(body);
         return HrAssFormItemBody.formHrAssFormItem(hrAssFormItem);
     }
 
-    private HrAssFormItem saveNewUpdateForm(HrAssFormItemBody body) {
+    private HrAssFormItem saveNewForm(HrAssFormItemBody body) {
         var hrAssFormItem = new HrAssFormItem();
+        hrAssFormItem.id = body.getIdHrAssFormItem();
         hrAssFormItem.title = body.getTitle();
         hrAssFormItem.titleL2 = body.getTitleL2();
         hrAssFormItem.itemPoin1 = body.getItemPoin1();

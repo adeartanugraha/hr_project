@@ -1,5 +1,7 @@
 package com.dimata.service.general.harisma.model.body;
 
+import static com.dimata.service.general.harisma.core.util.ManipulateUtil.changeItOrNot;
+
 import com.dimata.service.general.harisma.entity.HrAssFormSection;
 import lombok.Data;
 
@@ -35,5 +37,20 @@ public class HrAssFormSectionBody {
         output.setIdPointEvaluation(ent.idPointEvaluation);
         output.setIdPredicateEvaluation(ent.idPredicateEvaluation);
         return output;
+    }
+
+    public HrAssFormSection updateFormSection(HrAssFormSection formSection) {
+        formSection.section = changeItOrNot(section, formSection.section);
+        formSection.description = changeItOrNot(description, formSection.description);
+        formSection.sectionL2 = changeItOrNot(sectionL2, formSection.sectionL2);
+        formSection.descriptionL2 = changeItOrNot(descriptionL2, formSection.descriptionL2);
+        formSection.idAssFormMain = changeItOrNot(idAssFormMain, formSection.idAssFormMain);
+        formSection.orderNumber = changeItOrNot(orderNumber, formSection.orderNumber);
+        formSection.typeSection = changeItOrNot(typeSection, formSection.typeSection);
+        formSection.page = changeItOrNot(page, formSection.page);
+        formSection.weightPoint = changeItOrNot(weightPoint, formSection.weightPoint);
+        formSection.idPointEvaluation = changeItOrNot(idPointEvaluation, formSection.idPointEvaluation);
+        formSection.idPredicateEvaluation = changeItOrNot(idPredicateEvaluation, formSection.idPointEvaluation);
+        return formSection;
     }
 }

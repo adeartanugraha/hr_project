@@ -6,6 +6,7 @@ import io.smallrye.common.constraint.NotNull;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -64,5 +65,9 @@ public class HrAssFormSection extends PanacheEntityBase {
 
     public static Optional<HrAssFormSection> findById(long id) {
         return find("id = ?1", id).firstResultOptional();
+    }
+
+    public static List<HrAssFormSection> getAllData() {
+        return HrAssFormSection.listAll();
     }
 }

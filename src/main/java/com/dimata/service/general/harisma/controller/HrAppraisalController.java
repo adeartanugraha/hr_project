@@ -19,28 +19,27 @@ import java.util.List;
 public class HrAppraisalController {
     @Inject
     HrAppraisalHandler hrAppraisalHandler;
-
     @GET
-    @Path("/tes")
-    public String test() {
-        return "TEST";
-    }
-
-    @GET
-    public List<HrAppraisalBody> getAllAppraisal(@QueryParam long id){
+    public List<HrAppraisalBody> getAppraisal(@QueryParam long id){
         return hrAppraisalHandler.getHrAppraisal(id);
     }
 
-    @PUT
-    @Path("/update-appraisal")
+    @GET
+    @Path("/get-all")
     @Transactional
-    public HrAppraisalBody updateAppraisal(HrAppraisalBody body) {
+    public List<HrAppraisalBody> getAllAppraisal(){
+        return hrAppraisalHandler.getAllHrAppraisal();
+    }
+
+    @PUT
+    @Path("/update")
+    @Transactional
+    public HrAppraisal updateAppraisal(HrAppraisalBody body) {
         return hrAppraisalHandler.updateAppraisal(body);
     }
 
-    //masih error
     @POST
-    @Path("/create-appraisal")
+    @Path("/create")
     @Transactional
     public HrAppraisalBody createAppraisal(HrAppraisalBody body) {
         return hrAppraisalHandler.createAppraisal(body);

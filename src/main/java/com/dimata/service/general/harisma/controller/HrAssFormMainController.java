@@ -1,5 +1,6 @@
 package com.dimata.service.general.harisma.controller;
 
+import com.dimata.service.general.harisma.entity.HrAssFormMain;
 import com.dimata.service.general.harisma.model.body.HrAssFormMainBody;
 import com.dimata.service.general.harisma.service.HrAssFormMainHandler;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -7,6 +8,7 @@ import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import java.util.List;
@@ -21,10 +23,24 @@ public class HrAssFormMainController {
         return hrAssFormMainHandler.getFormMain(id);
     }
 
-    @PUT
-    @Path("/update-form-main")
+    @GET
+    @Path("/get-all")
     @Transactional
-    public HrAssFormMainBody updateFormMain(HrAssFormMainBody body) {
+    public List<HrAssFormMainBody> getAllFormMain(){
+        return hrAssFormMainHandler.getAllFormMain();
+    }
+
+    @PUT
+    @Path("/update")
+    @Transactional
+    public HrAssFormMain updateFormMain(HrAssFormMainBody body) {
         return hrAssFormMainHandler.updateFormMain(body);
+    }
+
+    @POST
+    @Path("/create")
+    @Transactional
+    public HrAssFormMainBody createFormMain(HrAssFormMainBody body) {
+        return hrAssFormMainHandler.createFormMain(body);
     }
 }

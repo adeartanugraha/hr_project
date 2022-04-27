@@ -18,7 +18,9 @@ public enum ExceptionCode {
 	CNT_NF("Contact Not Found"),
 	CONTACT_LINK_OCCUPIED("Contact Link Already Occupied"),
 	LEGACY_NOT_FOUND("Legacy not found"),
-	CONTACT_AND_TYPE_NOT_LINKED("contact and type not linked");
+	CONTACT_AND_TYPE_NOT_LINKED("contact and type not linked"),
+	GROUP_NOT_FOUND("Group not found"),
+	DATA_NOT_FOUND("Data not found");
 
 	@Getter
 	private final String message;

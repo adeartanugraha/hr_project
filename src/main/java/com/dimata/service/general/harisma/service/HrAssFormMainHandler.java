@@ -1,8 +1,8 @@
 package com.dimata.service.general.harisma.service;
 
 import com.dimata.service.general.harisma.entity.HrAssFormMain;
+import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
-import com.dimata.service.general.harisma.exception.FormatException;
 import com.dimata.service.general.harisma.model.body.HrAssFormMainBody;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,16 +18,30 @@ public class HrAssFormMainHandler {
                 .collect(Collectors.toList());
     }
 
-    public HrAssFormMainBody updateFormMain(HrAssFormMainBody body) {
-        if (body.getIdHrAssFormMain() == null) {
-            throw new FormatException(ExceptionCode.F_NV);
+    public List<HrAssFormMainBody> getAllFormMain() {
+        return HrAssFormMain.getAllData()
+                .stream()
+                .map(HrAssFormMainBody::formFormMain)
+                .collect(Collectors.toList());
+    }
+
+    public HrAssFormMain updateFormMain(HrAssFormMainBody body) {
+        HrAssFormMain formMain = HrAssFormMain.findById(body.getIdHrAssFormMain());
+        if (formMain == null) {
+            throw new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND);
         }
-        var hrAssFormMain = saveNewUpdateFormMain(body);
+        body.updateFormMain(formMain);
+        return formMain;
+    }
+
+    public HrAssFormMainBody createFormMain(HrAssFormMainBody body) {
+        var hrAssFormMain = saveNewFormMain(body);
         return HrAssFormMainBody.formFormMain(hrAssFormMain);
     }
 
-    private HrAssFormMain saveNewUpdateFormMain(HrAssFormMainBody body) {
+    private HrAssFormMain saveNewFormMain(HrAssFormMainBody body) {
         var hrAssFormMain = new HrAssFormMain();
+        hrAssFormMain.id = body.getIdHrAssFormMain();
         hrAssFormMain.groupRankId = body.getIdGroupRank();
         hrAssFormMain.title = body.getTitle();
         hrAssFormMain.subtitle = body.getSubtitle();

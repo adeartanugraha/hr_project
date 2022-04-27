@@ -1,5 +1,7 @@
 package com.dimata.service.general.harisma.model.body;
 
+import static com.dimata.service.general.harisma.core.util.ManipulateUtil.changeItOrNot;
+
 import com.dimata.service.general.harisma.entity.HrAppMain;
 import lombok.Data;
 
@@ -78,5 +80,41 @@ public class HrAppMainBody {
         output.setDataPeriodForm(ent.dataPeriodFrom);
         output.setDataPeriodTo(ent.dataPeriodTo);
         return output;
+    }
+
+    public HrAppMain updateAppMain(HrAppMain appMain) {
+        appMain.employeeId = changeItOrNot(idEmployee, appMain.employeeId);
+        appMain.empPositionId = changeItOrNot(idEmpPosition, appMain.empPositionId);
+        appMain.empDepartmentId = changeItOrNot(idEmpDepartment, appMain.empDepartmentId);
+        appMain.dateAssumedPosition = changeItOrNot(dateAssumedPosition, appMain.dateAssumedPosition);
+        appMain.dateJoinedHotel = changeItOrNot(dateJoinedHotel, appMain.dateJoinedHotel);
+        appMain.assessorId = changeItOrNot(idAssessor, appMain.assessorId);
+        appMain.assPositionId = changeItOrNot(idAssPosition, appMain.assPositionId);
+        appMain.dateOfAssessment = changeItOrNot(dateOfAssessment, appMain.dateOfAssessment);
+        appMain.dateOfLastAssessment = changeItOrNot(dateOfLastAssessment, appMain.dateOfLastAssessment);
+        appMain.dateOfNextAssessment = changeItOrNot(dateOfNextAssessment, appMain.dateOfNextAssessment);
+        appMain.levelId = changeItOrNot(idLevel, appMain.levelId);
+        appMain.totalAss = changeItOrNot(totalAss, appMain.totalAss);
+        appMain.totalScore = changeItOrNot(totalScore, appMain.totalScore);
+        appMain.scoreAverage = changeItOrNot(scoreAverage, appMain.scoreAverage);
+        appMain.divisionHead = changeItOrNot(divisionHead, appMain.divisionHead);
+        appMain.empSignDate = changeItOrNot(empSignDate, appMain.empSignDate);
+        appMain.assSignDate = changeItOrNot(assSignDate, appMain.assSignDate);
+        appMain.divSignDate = changeItOrNot(divSignDate, appMain.divSignDate);
+        appMain.approval1Id = changeItOrNot(idApproval1, appMain.approval1Id);
+        appMain.timeApproval1 = changeItOrNot(timeApproval1, appMain.timeApproval1);
+        appMain.approval2Id = changeItOrNot(idApproval2, appMain.approval2Id);
+        appMain.timeApproval2 = changeItOrNot(timeApproval2, appMain.timeApproval2);
+        appMain.approval3Id = changeItOrNot(idApproval3, appMain.approval3Id);
+        appMain.timeApproval3 = changeItOrNot(timeApproval3, appMain.timeApproval3);
+        appMain.approval4Id = changeItOrNot(idApproval4, appMain.approval4Id);
+        appMain.timeApproval4 = changeItOrNot(timeApproval4, appMain.timeApproval4);
+        appMain.approval5Id = changeItOrNot(idApproval5, appMain.approval5Id);
+        appMain.timeApproval5 = changeItOrNot(timeApproval5, appMain.timeApproval5);
+        appMain.approval6Id = changeItOrNot(idApproval6, appMain.approval6Id);
+        appMain.timeApproval6 = changeItOrNot(timeApproval6, appMain.timeApproval6);
+        appMain.dataPeriodFrom = changeItOrNot(dataPeriodForm, appMain.dataPeriodFrom);
+        appMain.dataPeriodTo = changeItOrNot(dataPeriodTo, appMain.dataPeriodTo);
+        return appMain;
     }
 }

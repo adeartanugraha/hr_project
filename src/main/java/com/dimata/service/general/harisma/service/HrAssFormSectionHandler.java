@@ -1,6 +1,7 @@
 package com.dimata.service.general.harisma.service;
 
 import com.dimata.service.general.harisma.entity.HrAssFormSection;
+import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
 import com.dimata.service.general.harisma.exception.FormatException;
 import com.dimata.service.general.harisma.model.body.HrAssFormSectionBody;
@@ -18,16 +19,30 @@ public class HrAssFormSectionHandler {
                 .collect(Collectors.toList());
     }
 
-    public HrAssFormSectionBody updateFormSection(HrAssFormSectionBody body) {
-        if (body.getIdHrAssFormSection() == null) {
-            throw new FormatException(ExceptionCode.F_NV);
+    public List<HrAssFormSectionBody> getAllFormSection() {
+        return HrAssFormSection.getAllData()
+                .stream()
+                .map(HrAssFormSectionBody::fromFormSection)
+                .collect(Collectors.toList());
+    }
+
+    public HrAssFormSection updateFormSection(HrAssFormSectionBody body) {
+        HrAssFormSection formSection = HrAssFormSection.findById(body.getIdHrAssFormSection());
+        if (formSection == null) {
+            throw new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND);
         }
-        var hrAssFormSection = saveNewUpdateFormSection(body);
+        body.updateFormSection(formSection);
+        return formSection;
+    }
+
+    public HrAssFormSectionBody createFormSection(HrAssFormSectionBody body) {
+        var hrAssFormSection = saveNewFormSection(body);
         return HrAssFormSectionBody.fromFormSection(hrAssFormSection);
     }
 
-    private HrAssFormSection saveNewUpdateFormSection(HrAssFormSectionBody body) {
+    private HrAssFormSection saveNewFormSection(HrAssFormSectionBody body) {
         var hrAssFormSection = new HrAssFormSection();
+        hrAssFormSection.id = body.getIdHrAssFormSection();
         hrAssFormSection.section = body.getSection();
         hrAssFormSection.description = body.getDescription();
         hrAssFormSection.sectionL2 = body.getSectionL2();

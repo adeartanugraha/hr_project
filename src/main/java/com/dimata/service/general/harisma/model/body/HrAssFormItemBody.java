@@ -1,5 +1,7 @@
 package com.dimata.service.general.harisma.model.body;
 
+import static com.dimata.service.general.harisma.core.util.ManipulateUtil.changeItOrNot;
+
 import com.dimata.service.general.harisma.entity.HrAssFormItem;
 import lombok.Data;
 
@@ -53,5 +55,29 @@ public class HrAssFormItemBody {
         output.setKpiNote(ent.kpiNote);
         output.setFormula(ent.formula);
         return output;
+    }
+
+    public HrAssFormItem updateFormItem(HrAssFormItem formItem) {
+        formItem.title = changeItOrNot(title, formItem.title);
+        formItem.titleL2 = changeItOrNot(titleL2, formItem.titleL2);
+        formItem.itemPoin1 = changeItOrNot(itemPoin1, formItem.itemPoin1);
+        formItem.itemPoin2 = changeItOrNot(itemPoin2, formItem.itemPoin2);
+        formItem.itemPoin3 = changeItOrNot(itemPoin3, formItem.itemPoin3);
+        formItem.itemPoin4 = changeItOrNot(itemPoin4, formItem.itemPoin4);
+        formItem.itemPoin5 = changeItOrNot(itemPoin5, formItem.itemPoin5);
+        formItem.itemPoin6 = changeItOrNot(itemPoin6, formItem.itemPoin6);
+        formItem.type = changeItOrNot(type, formItem.type);
+        formItem.orderNumber = changeItOrNot(orderNumber, formItem.orderNumber);
+        formItem.number = changeItOrNot(number, formItem.number);
+        formItem.page = changeItOrNot(page, formItem.page);
+        formItem.height = changeItOrNot(height, formItem.height);
+        formItem.idAssFormSection = changeItOrNot(idAssFormSection, formItem.idAssFormSection);
+        formItem.idKpiList = changeItOrNot(idKpiList, formItem.idKpiList);
+        formItem.weightPoint = changeItOrNot(weightPoint, formItem.weightPoint);
+        formItem.kpiTarget = changeItOrNot(kpiTarget, formItem.kpiTarget);
+        formItem.kpiUnit = changeItOrNot(kpiUnit, formItem.kpiUnit);
+        formItem.kpiNote = changeItOrNot(kpiNote, formItem.kpiNote);
+        formItem.formula = changeItOrNot(formula, formItem.formula);
+        return formItem;
     }
 }

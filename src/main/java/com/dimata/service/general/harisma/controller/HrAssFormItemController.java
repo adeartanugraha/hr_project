@@ -1,5 +1,6 @@
 package com.dimata.service.general.harisma.controller;
 
+import com.dimata.service.general.harisma.entity.HrAssFormItem;
 import com.dimata.service.general.harisma.model.body.HrAssFormItemBody;
 import com.dimata.service.general.harisma.service.HrAssFormItemHandler;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -7,6 +8,7 @@ import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import java.util.List;
@@ -21,10 +23,24 @@ public class HrAssFormItemController {
         return hrAssFormItemHandler.getHrFormItem(id);
     }
 
-    @PUT
-    @Path("/update-form-item")
+    @GET
+    @Path("/get-all")
     @Transactional
-    public HrAssFormItemBody updateFormItem(HrAssFormItemBody body) {
+    public List<HrAssFormItemBody> getAllFormItem() {
+        return hrAssFormItemHandler.getAllHrFormItem();
+    }
+
+    @PUT
+    @Path("/update")
+    @Transactional
+    public HrAssFormItem updateFormItem(HrAssFormItemBody body) {
         return hrAssFormItemHandler.updateFormItem(body);
+    }
+
+    @POST
+    @Path("/create")
+    @Transactional
+    public HrAssFormItemBody createFormItem(HrAssFormItemBody body) {
+        return hrAssFormItemHandler.createFormItem(body);
     }
 }

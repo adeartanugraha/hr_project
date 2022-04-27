@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -109,5 +110,9 @@ public class HrAssFormItem extends PanacheEntityBase {
 
     public static Optional<HrAssFormItem> findById(long id) {
         return find("id = ?1", id).firstResultOptional();
+    }
+
+    public static List<HrAssFormItem> getAllData() {
+        return HrAssFormItem.listAll();
     }
 }

@@ -1,6 +1,8 @@
 package com.dimata.service.general.harisma.service;
 
+import com.dimata.service.general.harisma.core.rest.CommonParam;
 import com.dimata.service.general.harisma.entity.HrAppMain;
+import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
 import com.dimata.service.general.harisma.exception.FormatException;
 import com.dimata.service.general.harisma.model.body.HrAppMainBody;
@@ -18,16 +20,30 @@ public class HrAppMainHandler {
                 .collect(Collectors.toList());
     }
 
-    public HrAppMainBody updateAppMain(HrAppMainBody body) {
-        if (body.getHrAppMainId() == null) {
-            throw new FormatException(ExceptionCode.F_NV);
+    public List<HrAppMainBody> getAllHrAppMain() {
+        return HrAppMain.getAllData()
+                .stream()
+                .map(HrAppMainBody::formHrMain)
+                .collect(Collectors.toList());
+    }
+
+    public HrAppMain updateAppMain(HrAppMainBody body) {
+        HrAppMain main = HrAppMain.findById(body.getHrAppMainId());
+        if (main == null) {
+            throw new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND, "Data not found");
         }
-        var hrAppMain = saveNewUpdateAppMain(body);
+        body.updateAppMain(main);
+        return main;
+    }
+
+    public HrAppMainBody createAppMain(HrAppMainBody body) {
+        var hrAppMain = saveNewAppMain(body);
         return HrAppMainBody.formHrMain(hrAppMain);
     }
 
-    private HrAppMain saveNewUpdateAppMain(HrAppMainBody body) {
+    private HrAppMain saveNewAppMain(HrAppMainBody body) {
         var hrAppMain = new HrAppMain();
+        hrAppMain.id = body.getHrAppMainId();
         hrAppMain.employeeId = body.getIdEmployee();
         hrAppMain.empPositionId = body.getIdEmpPosition();
         hrAppMain.empDepartmentId = body.getIdEmpDepartment();
@@ -63,14 +79,4 @@ public class HrAppMainHandler {
         hrAppMain.persist();
         return hrAppMain;
     }
-
-//    public List<HrAppMain> getHrAppMain() {
-//        HrAppMainBody hrAppMainBody;
-//        return HrAppMain.hrAppMains;
-//                .stream()
-//                .map(HrAppMainBody::formHrMain)
-//                .collect(Collectors.toList());
-//        HrAppMainBody body = new HrAppMainBody();
-//        return HrAppMain;
-//    }
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -49,5 +50,9 @@ public class HrAssFormMain extends PanacheEntityBase {
 
     public static Optional<HrAssFormMain> findById(long id) {
         return find("id = ?1", id).firstResultOptional();
+    }
+
+    public static List<HrAssFormMain> getAllData() {
+        return HrAssFormMain.listAll();
     }
 }

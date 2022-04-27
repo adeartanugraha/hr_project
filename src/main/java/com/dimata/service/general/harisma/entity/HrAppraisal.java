@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,17 +21,17 @@ public class HrAppraisal extends PanacheEntityBase {
     public Long id;
 
     @Column(name = "EMP_COMMENT")
-    @NotBlank
+//    @NotBlank
     @Type(type = "text")
     public String empComment;
 
     @Column(name = "ASS_COMMENT")
-    @NotBlank
+//    @NotBlank
     @Type(type = "text")
     public String assComment;
 
     @Column(name = "RATING")
-    @NotBlank
+//    @NotBlank
     public Double rating;
     @Column(name = "HR_APP_MAIN_ID", nullable = false)
     public Long hrAppMain;
@@ -77,29 +78,33 @@ public class HrAppraisal extends PanacheEntityBase {
     public String answer6;
 
     @Column(name = "REALIZATION")
-    @NotBlank
+//    @NotBlank
     public BigDecimal realization;
 
     @Column(name = "EVIDENCE")
-    @NotBlank
+//    @NotBlank
     public String evidence;
 
     @Column(name = "POINT")
-    @NotBlank
+//    @NotBlank
     public BigDecimal point;
 
     @Column(name = "WEIGHT")
-    @NotBlank
+//    @NotBlank
     public Double weight;
 
     @Column(name = "KPI_ID")
-    @NotBlank
+//    @NotBlank
     public Long kpiId;
 
     //---------------- ACTIVE RECORD
 
     public static Optional<HrAppraisal> findById(long id) {
         return find("id = ?1", id).firstResultOptional();
+    }
+
+    public static List<HrAppraisal> getAllData() {
+        return HrAppraisal.listAll();
     }
 
 }

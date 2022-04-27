@@ -6,8 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,4 +150,7 @@ public class HrAppMain extends PanacheEntityBase {
         return find("id = ?1", id).firstResultOptional();
     }
 
+    public static List<HrAppMain> getAllData() {
+        return HrAppMain.listAll();
+    }
 }
