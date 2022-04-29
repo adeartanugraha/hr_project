@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2022 at 07:39 AM
+-- Generation Time: Apr 29, 2022 at 04:31 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_hrproject`
+-- Database: `db_hrproject_test`
 --
 
 -- --------------------------------------------------------
@@ -31,7 +31,7 @@ CREATE TABLE `data_absent` (
   `id_absent` bigint(20) NOT NULL,
   `id_user` bigint(20) NOT NULL,
   `id_schedule` bigint(20) NOT NULL,
-  `id_token` bigint(20) NOT NULL,
+  `id_token` varchar(20) NOT NULL,
   `used_at` datetime NOT NULL,
   `status` tinyint(4) NOT NULL COMMENT '0 = "in" & 1 = "out"',
   `is_late` tinyint(1) NOT NULL
@@ -42,18 +42,14 @@ CREATE TABLE `data_absent` (
 --
 
 INSERT INTO `data_absent` (`id_absent`, `id_user`, `id_schedule`, `id_token`, `used_at`, `status`, `is_late`) VALUES
-(846068708837130, 846067400050653, 846067746053320, 846068622041482, '2022-02-02 13:11:45', 1, 0),
-(846068722417206, 846067425911716, 846067746053320, 846068622041482, '2022-02-02 16:58:05', 0, 1),
-(846068722440807, 846067425911716, 846067746053320, 846068622041482, '2022-02-02 16:58:28', 0, 0),
-(846068722471227, 846067425911716, 846067746053320, 846068622041482, '2022-02-02 16:58:59', 0, 0),
-(846070528378315, 846069905397394, 846067746053320, 846068550177056, '2022-02-23 14:37:26', 1, 1);
+(846076172217445, 846069905397394, 846068528373994, '6eda9bd9-4b81-44c3-a', '2022-04-29 22:21:25', 1, 1);
 
 --
 -- Triggers `data_absent`
 --
 DELIMITER $$
 CREATE TRIGGER `deAktifasiToken` AFTER INSERT ON `data_absent` FOR EACH ROW BEGIN
-UPDATE `data_token` SET `is_active`=1 WHERE `token_code`= NEW.id_token;
+UPDATE `token` SET `is_active`=1 WHERE `token_code`= NEW.id_token;
 END
 $$
 DELIMITER ;
@@ -112,30 +108,6 @@ INSERT INTO `data_schedule` (`id_schedule`, `id_industry`, `day`, `time_in`, `ti
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data_token`
---
-
-CREATE TABLE `data_token` (
-  `token_code` bigint(20) NOT NULL,
-  `is_active` tinyint(4) NOT NULL,
-  `created_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `data_token`
---
-
-INSERT INTO `data_token` (`token_code`, `is_active`, `created_at`) VALUES
-(846068550168830, 0, NULL),
-(846068550177056, 1, NULL),
-(846068551353617, -1, NULL),
-(846068551358806, 1, NULL),
-(846068551363759, 0, NULL),
-(846068622041482, 0, '2022-02-01 13:05:09');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `data_user`
 --
 
@@ -177,6 +149,25 @@ INSERT INTO `main_schedule` (`id_mainschedule`, `id_schedule`, `id_industry`, `i
 (846068712979466, 846067746053320, 846067421570739, 846067400050653, 1),
 (846069904524114, 846067746053320, 846067421570739, 846067425911716, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `token`
+--
+
+CREATE TABLE `token` (
+  `token_code` varchar(20) NOT NULL,
+  `is_active` tinyint(4) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `token`
+--
+
+INSERT INTO `token` (`token_code`, `is_active`, `created_at`) VALUES
+('6eda9bd9-4b81-44c3-a', 1, '2022-04-29 22:17:07');
+
 --
 -- Indexes for dumped tables
 --
@@ -204,12 +195,6 @@ ALTER TABLE `data_schedule`
   ADD KEY `idx_id_industry` (`id_industry`);
 
 --
--- Indexes for table `data_token`
---
-ALTER TABLE `data_token`
-  ADD PRIMARY KEY (`token_code`);
-
---
 -- Indexes for table `data_user`
 --
 ALTER TABLE `data_user`
@@ -225,6 +210,12 @@ ALTER TABLE `main_schedule`
   ADD KEY `idx_id_user` (`id_user`) USING BTREE;
 
 --
+-- Indexes for table `token`
+--
+ALTER TABLE `token`
+  ADD PRIMARY KEY (`token_code`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -234,7 +225,7 @@ ALTER TABLE `main_schedule`
 ALTER TABLE `data_absent`
   ADD CONSTRAINT `data_absent_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `data_user` (`id_user`),
   ADD CONSTRAINT `data_absent_ibfk_2` FOREIGN KEY (`id_schedule`) REFERENCES `data_schedule` (`id_schedule`),
-  ADD CONSTRAINT `data_absent_ibfk_3` FOREIGN KEY (`id_token`) REFERENCES `data_token` (`token_code`);
+  ADD CONSTRAINT `data_absent_ibfk_3` FOREIGN KEY (`id_token`) REFERENCES `token` (`token_code`);
 
 --
 -- Constraints for table `data_schedule`

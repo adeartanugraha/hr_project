@@ -19,7 +19,7 @@ public class UserAbsent {
 
     private Long id;
     private Long idSchedule;
-    private Long idToken; 
+    private String idToken; 
     private String username; 
 
     private Boolean isLate;
@@ -32,7 +32,7 @@ public class UserAbsent {
         result.setId(ManipulateUtil.parseRow(row, "id_absent", Long.class));
         result.setUsername(ManipulateUtil.parseRow(row, "username", String.class));
         result.setIdUser(ManipulateUtil.parseRow(row, "id_user", Long.class));
-        result.setIdToken(ManipulateUtil.parseRow(row, "id_token", Long.class));
+        result.setIdToken(ManipulateUtil.parseRow(row, "id_token", String.class));
         result.setIsLate(ManipulateUtil.parseRow(row, "is_late", Boolean.class));
         result.setIdSchedule(ManipulateUtil.parseRow(row, "id_schedule", Long.class));
         result.setUsedAt(ManipulateUtil.parseRow(row,"used_at", LocalDateTime.class));

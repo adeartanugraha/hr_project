@@ -1,9 +1,9 @@
 package com.dimata.demo.hr_project.Controllers;
 
 import com.dimata.demo.hr_project.core.search.CommonParam;
-import com.dimata.demo.hr_project.forms.DataTokenForm;
-import com.dimata.demo.hr_project.models.table.DataToken;
-import com.dimata.demo.hr_project.services.api.DataTokenApi;
+import com.dimata.demo.hr_project.forms.TokenForm;
+import com.dimata.demo.hr_project.models.table.Token;
+import com.dimata.demo.hr_project.services.api.TokenApi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,12 +22,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class TokenController {
     @Autowired
-    private DataTokenApi dataTokenApi;
+    private TokenApi dataTokenApi;
 
     private static final String BASE_URL = "/hr_project/v1";
 
     @PostMapping(path = BASE_URL + "/token", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<DataToken> maintainerAddDataToken(@RequestBody DataTokenForm form) {
+    public Mono<Token> maintainerAddDataToken(@RequestBody TokenForm form) {
         // TODO : Tidak boleh ada dua return dalam satu method.
 
         return dataTokenApi.createDataToken(form);
@@ -35,19 +35,19 @@ public class TokenController {
     }
 
     @GetMapping(path = BASE_URL + "/token")
-    public Flux<DataToken> maintainerGetAllDataToken(CommonParam param) {
+    public Flux<Token> maintainerGetAllDataToken(CommonParam param) {
         return dataTokenApi.getAllDataToken(param);
     }
 
     @GetMapping(path = BASE_URL + "/token/{token_code}")
-    public Mono<DataToken> maintainerGetDataAbsent(@PathVariable("token_code") Long tokenCode) {
+    public Mono<Token> maintainerGetDataAbsent(@PathVariable("token_code") String tokenCode) {
         // TODO : ini typo ? gak kepakek auto correcnya ?
         // tinggal pencel spasi + ctrl
         return dataTokenApi.getDataToken(tokenCode);
     }
 
     @PutMapping(path = BASE_URL + "/token/{token_code}")
-    public Mono<DataToken> maintainerUpdateDataAbsent(@PathVariable("token_code") long tokenCode, @RequestBody DataTokenForm form) {
+    public Mono<Token> maintainerUpdateDataAbsent(@PathVariable("token_code") String tokenCode, @RequestBody TokenForm form) {
         return dataTokenApi.updateDataToken(tokenCode, form);
     }
 }

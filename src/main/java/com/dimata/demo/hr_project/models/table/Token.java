@@ -3,6 +3,10 @@ package com.dimata.demo.hr_project.models.table;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
+
+import javax.persistence.GeneratedValue;
+
 import static com.dimata.demo.hr_project.core.util.ManipulateUtil.changeItOrNot;
 
 import com.dimata.demo.hr_project.core.api.UpdateAvailable;
@@ -17,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
@@ -35,8 +40,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> {
-    public static final String TABLE_NAME = "data_token";
+public class Token implements Persistable<String>, UpdateAvailable<Token> {
+    public static final String TABLE_NAME = "token";
     public static final String ID_COL = "token_code";
     public static final String IS_ACTIVE_COL = "is_active";
     public static final String CRETED_AT_COL = "created_at";
@@ -45,7 +50,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     @Setter
     public static class Builder {
 
-        private Long id;
+        private String id;
         private IsActive isActive;
         private LocalDateTime createdAt;
         @Setter(AccessLevel.PRIVATE)
@@ -56,7 +61,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
                 .isActive(Objects.requireNonNull(isActive, "is active tidak boleh kosong"));
         }
 
-        public static Builder updateBuilder(DataToken oldRecord, DataToken newRecord) {
+        public static Builder updateBuilder(Token oldRecord, Token newRecord) {
             return new Builder()
                 .id(oldRecord.getId())
                 .isActive(changeItOrNot(newRecord.getIsActive(), oldRecord.getIsActive()))
@@ -67,8 +72,8 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
             return new Builder();
         }
 
-        public DataToken build() {
-            DataToken result = new DataToken();
+        public Token build() {
+            Token result = new Token();
             result.setId(id);
             result.setIsActive(isActive);
             result.setCreatedAt(createdAt);
@@ -78,7 +83,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
 
     @Id
     @Column(ID_COL)
-    private Long id;
+    private String id;
     private Integer isActive;
     
     @JsonSerialize(converter = TimeSerialize.class)
@@ -87,7 +92,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     
     @Transient
     @JsonIgnore
-    private Long insertId;
+    private String insertId;
 
     public void setIsActive(IsActive isactive) {
         if (isactive!= null) {
@@ -102,9 +107,9 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
         return null;
     }
 
-    public static DataToken fromRow(Row row) {
-        var result = new DataToken();
-        result.setId(ManipulateUtil.parseRow(row, ID_COL, Long.class));
+    public static Token fromRow(Row row) {
+        var result = new Token();
+        result.setId(ManipulateUtil.parseRow(row, ID_COL, String.class));
         result.setIsActive(IsActive.getIsActive(ManipulateUtil.parseRow(row, IS_ACTIVE_COL, Integer.class)));
         result.setCreatedAt(ManipulateUtil.parseRow(row, CRETED_AT_COL, LocalDateTime.class));
         return result;
@@ -115,7 +120,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     @Override
     public boolean isNew() {
         if (id == null && insertId == null) {
-            id = new GenerateUtil().generateOID();
+            id = UUID.randomUUID().toString();
             createdAt = LocalDateTime.now();
             return true;
         } else if (id == null) {
@@ -127,7 +132,7 @@ public class DataToken implements Persistable<Long>, UpdateAvailable<DataToken> 
     }
 
     @Override
-    public DataToken update(DataToken newData) {
+    public Token update(Token newData) {
         return Builder.updateBuilder(this, newData).build();
     }
 }

@@ -53,7 +53,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         private Long id;
         private Long idUser;
         private Long idSchedule; 
-        private Long idToken; 
+        private String idToken; 
         private Boolean isLate; 
         private LocalDateTime usedAt;
         private StatusAbsent status;
@@ -114,7 +114,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
     private Long id;
     private Long idUser;
     private Long idSchedule;
-    private Long idToken; 
+    private String idToken; 
     private Integer status;
     private Boolean isLate;
     
@@ -149,7 +149,7 @@ public class DataAbsent implements Persistable<Long>, UpdateAvailable<DataAbsent
         var result = new DataAbsent();
         result.setId(ManipulateUtil.parseRow(row, ID_COL, Long.class));
         result.setIdUser(ManipulateUtil.parseRow(row, ID_USER_COL, Long.class));
-        result.setIdToken(ManipulateUtil.parseRow(row, ID_TOKEN_COL, Long.class));
+        result.setIdToken(ManipulateUtil.parseRow(row, ID_TOKEN_COL, String.class));
         result.setIsLate(ManipulateUtil.parseRow(row, IS_LATE_COL, Boolean.class));
         result.setIdSchedule(ManipulateUtil.parseRow(row, ID_INDUSTRY_COL, Long.class));
         result.setUsedAt(ManipulateUtil.parseRow(row, USED_AT_COL, LocalDateTime.class));

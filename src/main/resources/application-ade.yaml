@@ -1,6 +1,6 @@
 spring:
   r2dbc:
-    url: r2dbc:mysql://localhost:3306/db_hrproject
+    url: r2dbc:mysql://localhost:3306/db_hrproject_test
     username: root
     password: 
   main:

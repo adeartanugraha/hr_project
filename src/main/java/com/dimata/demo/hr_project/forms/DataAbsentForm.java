@@ -17,7 +17,7 @@ public class DataAbsentForm implements RecordAdapter<DataAbsent>{
     private Long id;
     // private DataUser idUser;
     private Long idUser;
-    private Long idToken;
+    private String idToken;
     private Boolean isLate;
     private StatusAbsent status;
     private Long idSchedule;

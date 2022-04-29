@@ -5,9 +5,9 @@ import com.dimata.demo.hr_project.core.exception.DataNotFoundException;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
-import com.dimata.demo.hr_project.forms.DataTokenForm;
-import com.dimata.demo.hr_project.models.table.DataToken;
-import com.dimata.demo.hr_project.services.crude.DataTokenCrude;
+import com.dimata.demo.hr_project.forms.TokenForm;
+import com.dimata.demo.hr_project.models.table.Token;
+import com.dimata.demo.hr_project.services.crude.TokenCrude;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -18,50 +18,50 @@ import reactor.core.publisher.Mono;
 
 @Service
 
-public class DataTokenApi {
+public class TokenApi {
     @Autowired
-    private DataTokenCrude dataTokenCrude;
+    private TokenCrude dataTokenCrude;
     @Autowired
 	private R2dbcEntityTemplate template;
 
-    public Mono<DataToken> createDataToken(DataTokenForm form) {
+    public Mono<Token> createDataToken(TokenForm form) {
         return Mono.just(form)
         .flatMap(f -> {
-            DataTokenCrude.Option option = DataTokenCrude.initOption(f.convertNewRecord());
+            TokenCrude.Option option = TokenCrude.initOption(f.convertNewRecord());
             return Mono.just(option);
         })
         .flatMap(dataTokenCrude::create);
     }
 
-    public Flux<DataToken> getAllDataToken(CommonParam param) {
-        var sql = SelectQBuilder.builderWithCommonParam(DataToken.TABLE_NAME, param)
+    public Flux<Token> getAllDataToken(CommonParam param) {
+        var sql = SelectQBuilder.builderWithCommonParam(Token.TABLE_NAME, param)
             .build();
         return template.getDatabaseClient()
             .sql(sql)
-            .map(DataToken::fromRow)
+            .map(Token::fromRow)
             .all();
     }
 
-    public Mono<DataToken> getDataToken(Long id) {
-        var sql = SelectQBuilder.emptyBuilder(DataToken.TABLE_NAME)
-            .addWhere(WhereQuery.when(DataToken.ID_COL).is(id))
+    public Mono<Token> getDataToken(String id) {
+        var sql = SelectQBuilder.emptyBuilder(Token.TABLE_NAME)
+            .addWhere(WhereQuery.when(Token.ID_COL).is(id))
             .build();
         System.out.println(sql);
         return template.getDatabaseClient()
             .sql(sql)
-            .map(DataToken::fromRow)
+            .map(Token::fromRow)
             .one()
             .switchIfEmpty(Mono.error(new DataNotFoundException("data tidak ditemukan")));
     }
 
-    public Mono<DataToken> updateDataToken(Long id, DataTokenForm form) {
+    public Mono<Token> updateDataToken(String id, TokenForm form) {
         return Mono.zip(Mono.just(id), Mono.just(form))
             .map(z -> {
                 z.getT2().setId(z.getT1());
                 return z.getT2();
             })
             .flatMap(d -> {
-                DataTokenCrude.Option option = DataTokenCrude.initOption(d.convertNewRecord());
+                TokenCrude.Option option = TokenCrude.initOption(d.convertNewRecord());
                 return Mono.just(option);
             })
             .flatMap(dataTokenCrude::updateRecord);
