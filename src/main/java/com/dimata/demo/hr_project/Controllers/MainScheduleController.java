@@ -42,10 +42,11 @@ public class MainScheduleController {
     public Mono<MainSchedule> maintainerGetMainSchedule(@PathVariable("id_mainschedule") Long idMainschedule) {
         return mainScheduleApi.getMainSchedule(idMainschedule);
     }
-    @GetMapping(path = BASE_URL + "/main_schedule/schedule/{id_schedule}/user/{id_user}")
-    public Mono<UserSchedule> maintainerGetUserSchedule(@PathVariable("id_schedule") Long idSchedule,@PathVariable("id_user") Long idUser) {
-        return mainScheduleApi.getUserSchedule(idSchedule,idUser);
+    @GetMapping(path = BASE_URL + "/main_schedule/day/{day}/user/{id_user}")
+    public Mono<UserSchedule> maintainerGetUserSchedule(@PathVariable("day") Long day,@PathVariable("id_user") Long idUser) {
+        return mainScheduleApi.getUserSchedule(day,idUser);
     }
+    
 
     @PutMapping(path = BASE_URL + "/main_schedule/{id_mainschedule}")
     public Mono<MainSchedule> maintainerUpdateMainSchedule(@PathVariable("id_mainschedule") long idMainschedule, @RequestBody MainScheduleForm form) {

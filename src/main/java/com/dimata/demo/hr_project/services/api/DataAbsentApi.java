@@ -1,10 +1,16 @@
 package com.dimata.demo.hr_project.services.api;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import com.dimata.demo.hr_project.core.exception.DataNotFoundException;
 import com.dimata.demo.hr_project.core.search.CollumnQuery;
 import com.dimata.demo.hr_project.core.search.CommonParam;
 import com.dimata.demo.hr_project.core.search.JoinQuery;
 import com.dimata.demo.hr_project.core.search.JoinQueryStep;
+import com.dimata.demo.hr_project.core.search.LimitQuery;
+import com.dimata.demo.hr_project.core.search.LimitQueryStep;
 import com.dimata.demo.hr_project.core.search.SelectQBuilder;
 import com.dimata.demo.hr_project.core.search.WhereQuery;
 import com.dimata.demo.hr_project.forms.DataAbsentForm;
@@ -14,6 +20,7 @@ import com.dimata.demo.hr_project.models.table.DataSchedule;
 import com.dimata.demo.hr_project.models.table.DataUser;
 import com.dimata.demo.hr_project.services.crude.DataAbsentCrude;
 import com.dimata.demo.hr_project.services.dbHandler.DataAbsentDbhandler;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -65,7 +72,46 @@ public class DataAbsentApi {
         return template.getDatabaseClient()
             .sql(sql)
             .map(DataAbsent::fromRow)
-            .one();
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
+    }
+    public Mono<DataAbsent> getCheckIn(Long id_user) {
+        var a=LocalDate.now();
+        var b=LocalDateTime.now();
+       
+
+        
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+            .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(id_user))
+            .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
+            .addWhere(WhereQuery.when(DataAbsent.STATUS_COL).is(0))
+            .setSort(DataAbsent.USED_AT_COL)
+            .setLimit(LimitQuery.of(1, 1))
+            .build();
+        System.out.println(sql);
+        return template.getDatabaseClient()
+            .sql(sql)
+            .map(DataAbsent::fromRow)
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
+    }
+    public Mono<DataAbsent> getCheckOut(Long id_user) {
+        var a=LocalDate.now();
+        var b=LocalDateTime.now();
+
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+            .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(id_user))
+            .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
+            .addWhere(WhereQuery.when(DataAbsent.STATUS_COL).is(1))
+            .setSort(DataAbsent.USED_AT_COL)
+            .setLimit(LimitQuery.of(1, 1))
+            .build();
+        System.out.println(sql);
+        return template.getDatabaseClient()
+            .sql(sql)
+            .map(DataAbsent::fromRow)
+            .one()
+            .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
     public Flux<DataAbsent> getDataAbsentUser(Long idUser) {
         var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
@@ -75,7 +121,22 @@ public class DataAbsentApi {
     return template.getDatabaseClient()
         .sql(sql)
         .map(DataAbsent::fromRow)
-        .all();
+        .all()
+        .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
+    }
+    public Flux<DataAbsent> getDataAbsentUserToday(Long idUser) {
+        var a=LocalDate.now();
+        var b=LocalDateTime.now();
+        var sql = SelectQBuilder.emptyBuilder(DataAbsent.TABLE_NAME)
+        .addWhere(WhereQuery.when(DataAbsent.ID_USER_COL).is(idUser))
+        .addWhere(WhereQuery.when(DataAbsent.USED_AT_COL).between(a,b))
+        .build();
+    System.out.println(sql);
+    return template.getDatabaseClient()
+        .sql(sql)
+        .map(DataAbsent::fromRow)
+        .all()
+        .switchIfEmpty(Mono.error(new DataNotFoundException("Data Tidak ditemukan")));
     }
   
     public Mono<DataAbsent> updateDataAbsent(Long id, DataAbsentForm form) {
@@ -91,3 +152,5 @@ public class DataAbsentApi {
             .flatMap(dataAbsentCrude::updateRecord);
     }    
 }
+
+
