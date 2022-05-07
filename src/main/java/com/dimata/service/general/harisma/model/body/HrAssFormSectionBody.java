@@ -29,7 +29,7 @@ public class HrAssFormSectionBody {
         output.setDescription(ent.description);
         output.setSectionL2(ent.sectionL2);
         output.setDescriptionL2(ent.descriptionL2);
-        output.setIdAssFormMain(ent.idAssFormMain);
+        output.setIdAssFormMain(ent.idAssFormMain.id);
         output.setOrderNumber(ent.orderNumber);
         output.setTypeSection(ent.typeSection);
         output.setPage(ent.page);
@@ -44,7 +44,7 @@ public class HrAssFormSectionBody {
         formSection.description = changeItOrNot(description, formSection.description);
         formSection.sectionL2 = changeItOrNot(sectionL2, formSection.sectionL2);
         formSection.descriptionL2 = changeItOrNot(descriptionL2, formSection.descriptionL2);
-        formSection.idAssFormMain = changeItOrNot(idAssFormMain, formSection.idAssFormMain);
+        formSection.idAssFormMain.id = changeItOrNot(idAssFormMain, formSection.idAssFormMain.id);
         formSection.orderNumber = changeItOrNot(orderNumber, formSection.orderNumber);
         formSection.typeSection = changeItOrNot(typeSection, formSection.typeSection);
         formSection.page = changeItOrNot(page, formSection.page);

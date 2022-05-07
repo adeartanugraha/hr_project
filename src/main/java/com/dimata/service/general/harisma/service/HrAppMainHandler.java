@@ -1,6 +1,7 @@
 package com.dimata.service.general.harisma.service;
 
 import com.dimata.service.general.harisma.core.rest.CommonParam;
+import com.dimata.service.general.harisma.entity.EmployeeStart;
 import com.dimata.service.general.harisma.entity.HrAppMain;
 import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
@@ -37,14 +38,23 @@ public class HrAppMainHandler {
     }
 
     public HrAppMainBody createAppMain(HrAppMainBody body) {
-        var hrAppMain = saveNewAppMain(body);
+        if (body.getIdEmployee() == null) {
+            throw new FormatException(ExceptionCode.F_NV);
+        }
+        var employee = fetchEmployee(body.getIdEmployee());
+        var hrAppMain = saveNewAppMain(body, employee);
         return HrAppMainBody.formHrMain(hrAppMain);
     }
 
-    private HrAppMain saveNewAppMain(HrAppMainBody body) {
+    private EmployeeStart fetchEmployee(long employeeId) {
+        return (EmployeeStart) EmployeeStart.findByIdOptional(employeeId)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND));
+    }
+
+    private HrAppMain saveNewAppMain(HrAppMainBody body, EmployeeStart employee) {
         var hrAppMain = new HrAppMain();
         hrAppMain.id = body.getHrAppMainId();
-        hrAppMain.employeeId = body.getIdEmployee();
+        hrAppMain.employeeId = employee;
         hrAppMain.empPositionId = body.getIdEmpPosition();
         hrAppMain.empDepartmentId = body.getIdEmpDepartment();
         hrAppMain.dateAssumedPosition = body.getDateAssumedPosition();

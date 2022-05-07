@@ -19,7 +19,7 @@ public class HrAssFormMain extends PanacheEntityBase {
 
     @Column(name = "GROUP_RANK_ID")
     @NotNull
-    public Long groupRankId;
+    public Long groupRankId = Long.valueOf(0);
 
     @Column(name = "TITLE")
     @NotBlank

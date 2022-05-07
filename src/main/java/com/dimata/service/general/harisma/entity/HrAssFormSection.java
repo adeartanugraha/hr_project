@@ -18,24 +18,21 @@ public class HrAssFormSection extends PanacheEntityBase {
     public Long id;
 
     @Column(name = "SECTION")
-    @NotBlank
     public String section;
 
     @Column(name = "DESCRIPTION")
-    @NotBlank
     public String description;
 
     @Column(name = "SECTION_L2")
-    @NotBlank
     public String sectionL2;
 
     @Column(name = "DESCRIPTION_L2")
-    @NotBlank
     public String descriptionL2;
 
-    @Column(name = "ASS_FORM_MAIN_ID")
-    @NotBlank
-    public Long idAssFormMain;
+//    @Column(name = "ASS_FORM_MAIN_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ASS_FORM_MAIN_ID")
+    public HrAssFormMain idAssFormMain;
 
     @Column(name = "ORDER_NUMBER")
     @NotNull
@@ -50,16 +47,13 @@ public class HrAssFormSection extends PanacheEntityBase {
     public Integer page;
 
     @Column(name = "WEIGHT_POINT")
-    @NotBlank
     public BigDecimal weightPoint;
 
     @Column(name = "POINT_EVALUATION_ID")
-    @NotBlank
-    public Long idPointEvaluation;
+    public Long idPointEvaluation = Long.valueOf(0);
 
     @Column(name = "PREDICATE_EVALUATION_ID")
-    @NotBlank
-    public Long idPredicateEvaluation;
+    public Long idPredicateEvaluation = Long.valueOf(0);
 
     //---------------- ACTIVE RECORD
 

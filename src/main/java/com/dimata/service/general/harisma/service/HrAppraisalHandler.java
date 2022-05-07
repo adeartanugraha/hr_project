@@ -1,6 +1,8 @@
 package com.dimata.service.general.harisma.service;
 
+import com.dimata.service.general.harisma.entity.HrAppMain;
 import com.dimata.service.general.harisma.entity.HrAppraisal;
+import com.dimata.service.general.harisma.entity.HrAssFormItem;
 import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
 import com.dimata.service.general.harisma.exception.FormatException;
@@ -36,18 +38,33 @@ public class HrAppraisalHandler {
     }
 
     public HrAppraisalBody createAppraisal(HrAppraisalBody body) {
-        var hrAppraisal = saveNewHrAppraisal(body);
+        if (body.getHrAppMainId() == null || body.getAssFormItemId() == null) {
+            throw new FormatException(ExceptionCode.F_NV);
+        }
+        var appMain = fetchAppMain(body.getHrAppMainId());
+        var assFormItem = fetchAssFormItem(body.getAssFormItemId());
+        var hrAppraisal = saveNewHrAppraisal(body, appMain, assFormItem);
         return HrAppraisalBody.fromHrAppraisal(hrAppraisal);
     }
 
-    private HrAppraisal saveNewHrAppraisal(HrAppraisalBody body) {
+    private HrAppMain fetchAppMain(long appMainId) {
+        return (HrAppMain) HrAppMain.findByIdOptional(appMainId)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND));
+    }
+
+    private HrAssFormItem fetchAssFormItem(long assFormItem) {
+        return (HrAssFormItem) HrAssFormItem.findByIdOptional(assFormItem)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND));
+    }
+
+    private HrAppraisal saveNewHrAppraisal(HrAppraisalBody body, HrAppMain appMain, HrAssFormItem assFormItem) {
         var hrAppraisal = new HrAppraisal();
         hrAppraisal.id = body.getHrAppraisalId();
         hrAppraisal.empComment = body.getEmpComment();
         hrAppraisal.assComment = body.getAssComment();
         hrAppraisal.rating = body.getRating();
-        hrAppraisal.hrAppMain = body.getHrAppMainId();
-        hrAppraisal.hrAssFormItem = body.getAssFormItemId();
+        hrAppraisal.hrAppMain = appMain;
+        hrAppraisal.hrAssFormItem = assFormItem;
         hrAppraisal.answer1 = body.getAnswer1();
         hrAppraisal.answer2 = body.getAnswer2();
         hrAppraisal.answer3 = body.getAnswer3();

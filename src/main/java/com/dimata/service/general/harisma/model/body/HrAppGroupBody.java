@@ -5,7 +5,7 @@ import static com.dimata.service.general.harisma.core.util.ManipulateUtil.change
 import com.dimata.service.general.harisma.core.util.jackson.TimeDeserialize;
 import com.dimata.service.general.harisma.core.util.jackson.TimeSerialize;
 import com.dimata.service.general.harisma.entity.HrAppGroup;
-import com.dimata.service.general.harisma.entity.enums.HrAppGroupStatus;
+import com.dimata.service.general.harisma.entity.enums.Status;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class HrAppGroupBody {
     @JsonSerialize(converter = TimeSerialize.class)
     @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime regDate;
-    private HrAppGroupStatus status;
+    private Status status;
     private String description;
 
     public static HrAppGroupBody fromHrAppGroup(HrAppGroup ent) {

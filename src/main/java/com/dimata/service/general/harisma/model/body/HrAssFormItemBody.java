@@ -47,7 +47,7 @@ public class HrAssFormItemBody {
         output.setNumber(ent.number);
         output.setPage(ent.page);
         output.setHeight(ent.height);
-        output.setIdAssFormSection(ent.idAssFormSection);
+        output.setIdAssFormSection(ent.idAssFormSection.id);
         output.setIdKpiList(ent.idKpiList);
         output.setWeightPoint(ent.weightPoint);
         output.setKpiTarget(ent.kpiTarget);
@@ -71,7 +71,7 @@ public class HrAssFormItemBody {
         formItem.number = changeItOrNot(number, formItem.number);
         formItem.page = changeItOrNot(page, formItem.page);
         formItem.height = changeItOrNot(height, formItem.height);
-        formItem.idAssFormSection = changeItOrNot(idAssFormSection, formItem.idAssFormSection);
+        formItem.idAssFormSection.id = changeItOrNot(idAssFormSection, formItem.idAssFormSection.id);
         formItem.idKpiList = changeItOrNot(idKpiList, formItem.idKpiList);
         formItem.weightPoint = changeItOrNot(weightPoint, formItem.weightPoint);
         formItem.kpiTarget = changeItOrNot(kpiTarget, formItem.kpiTarget);

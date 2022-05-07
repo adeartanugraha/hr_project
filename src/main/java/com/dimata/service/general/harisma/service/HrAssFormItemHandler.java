@@ -1,6 +1,8 @@
 package com.dimata.service.general.harisma.service;
 
 import com.dimata.service.general.harisma.entity.HrAssFormItem;
+import com.dimata.service.general.harisma.entity.HrAssFormSection;
+import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
 import com.dimata.service.general.harisma.exception.FormatException;
 import com.dimata.service.general.harisma.model.body.HrAssFormItemBody;
@@ -35,11 +37,20 @@ public class HrAssFormItemHandler {
     }
 
     public HrAssFormItemBody createFormItem(HrAssFormItemBody body) {
-        var hrAssFormItem = saveNewForm(body);
+        if (body.getIdAssFormSection() == null) {
+            throw new FormatException(ExceptionCode.F_NV);
+        }
+        var assFormSection = fetchAssFormSection(body.getIdAssFormSection());
+        var hrAssFormItem = saveNewForm(body, assFormSection);
         return HrAssFormItemBody.formHrAssFormItem(hrAssFormItem);
     }
 
-    private HrAssFormItem saveNewForm(HrAssFormItemBody body) {
+    private HrAssFormSection fetchAssFormSection(long formSectionId) {
+        return (HrAssFormSection) HrAssFormSection.findByIdOptional(formSectionId)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND));
+    }
+
+    private HrAssFormItem saveNewForm(HrAssFormItemBody body, HrAssFormSection assFormSection) {
         var hrAssFormItem = new HrAssFormItem();
         hrAssFormItem.id = body.getIdHrAssFormItem();
         hrAssFormItem.title = body.getTitle();
@@ -55,7 +66,7 @@ public class HrAssFormItemHandler {
         hrAssFormItem.number = body.getNumber();
         hrAssFormItem.page = body.getPage();
         hrAssFormItem.height = body.getHeight();
-        hrAssFormItem.idAssFormSection = body.getIdAssFormSection();
+        hrAssFormItem.idAssFormSection = assFormSection;
         hrAssFormItem.idKpiList = body.getIdKpiList();
         hrAssFormItem.weightPoint = body.getWeightPoint();
         hrAssFormItem.kpiTarget = body.getKpiTarget();

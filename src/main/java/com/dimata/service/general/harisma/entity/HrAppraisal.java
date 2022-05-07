@@ -16,36 +16,27 @@ import java.util.UUID;
 @Table(name = "hr_appraisal")
 public class HrAppraisal extends PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//,generator = "dimata_id_gen")
+    @GeneratedValue(generator = "dimata_id_gen")
     @Column(name = "HR_APPRAISAL_ID")
     public Long id;
 
     @Column(name = "EMP_COMMENT")
-//    @NotBlank
     @Type(type = "text")
     public String empComment;
 
     @Column(name = "ASS_COMMENT")
-//    @NotBlank
     @Type(type = "text")
     public String assComment;
 
     @Column(name = "RATING")
-//    @NotBlank
     public Double rating;
-    @Column(name = "HR_APP_MAIN_ID", nullable = false)
-    public Long hrAppMain;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "HR_APP_MAIN_ID")
+    public HrAppMain hrAppMain;
 
-    @Column(name = "ASS_FORM_ITEM_ID", nullable = false)
-    public Long hrAssFormItem;
-
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "HR_APP_MAIN_ID")
-//    public HrAppMain hrAppMain;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "ASS_FORM_ITEM_ID")
-//    public HrAssFormItem hrAssFormItem;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ASS_FORM_ITEM_ID")
+    public HrAssFormItem hrAssFormItem;
 
     @Column(name = "ANSWER_1")
     @NotNull
@@ -78,24 +69,19 @@ public class HrAppraisal extends PanacheEntityBase {
     public String answer6;
 
     @Column(name = "REALIZATION")
-//    @NotBlank
     public BigDecimal realization;
 
     @Column(name = "EVIDENCE")
-//    @NotBlank
     public String evidence;
 
     @Column(name = "POINT")
-//    @NotBlank
     public BigDecimal point;
 
     @Column(name = "WEIGHT")
-//    @NotBlank
     public Double weight;
 
     @Column(name = "KPI_ID")
-//    @NotBlank
-    public Long kpiId;
+    public Long kpiId = Long.valueOf(0);
 
     //---------------- ACTIVE RECORD
 

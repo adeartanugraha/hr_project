@@ -3,12 +3,14 @@ package com.dimata.service.general.harisma.core.util;
 import com.dimata.service.general.harisma.exception.FormatException;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-
+import java.util.Objects;
 
 /**
  * Alat bantu untuk melakukan format.
@@ -22,78 +24,101 @@ public class FormatUtil {
   }
 
   public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+  public static final String TIME_FORMAT = "HH:mm:ss";
+  public static final String FORMAT_OF_DATE = "dd-MM-yyyy";
+  public static final String FORMAT_OF_DATE_FOR_SQL_QUERY = "yyyy-MM-dd";
+  public static final String DATE_FORMAT_FOR_SQL_QUERY = "yyyy-MM-ddTHH:MM:ss";
 
-  /**
-   * Mengconvert string date ke bentuk localdate. Hanya menerima format
-   * DATE_FORMAT untuk konsistensi.
-   *
-   * @param date format tanggal d-MM-yyyy
-   * @return LocalDate
-   * @throws FormatException jika format salah.
-   */
-  public static LocalDateTime convertToLocalDate(String date) {
+  public static LocalDateTime convertToLocalDate(String date, String dateFormat) {
     try {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT).withResolverStyle(ResolverStyle.SMART);
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat).withResolverStyle(ResolverStyle.SMART);
       return LocalDateTime.parse(date, formatter);
     } catch (Exception e) {
-      throw new FormatException("Format tanggal harus d-MM-yyy HH:mm:ss. Contoh : 29-08-2002 12:10:00");
+      throw new FormatException("Format tanggal harus " + dateFormat + ". Contoh : 29-08-2002 12:10:00");
     }
   }
 
-  /**
-   * Mengconvert LocalDate ke dalam bentuk string. Menghasilkan format tanggal
-   * dalam bentuk DATE_FORMAT.
-   *
-   * @param date LocalDate, tidak boleh null.
-   * @return hasil format dalam bentuk String.
-   */
+  public static LocalDate convertDateToLocalDate(String date, String dateFormat) {
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat).withResolverStyle(ResolverStyle.SMART);
+      return LocalDate.parse(date, formatter);
+    } catch (Exception e) {
+      throw new FormatException("Format tanggal harus " + dateFormat + ". Contoh : 29-08-2002 12:10:00");
+    }
+  }
+
+  public static LocalTime convertTimeToLocalTime(String time, String timeFormat) {
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat).withResolverStyle(ResolverStyle.SMART);
+      return LocalTime.parse(time, formatter);
+    } catch (Exception e) {
+      throw new FormatException("Format jam harus " + timeFormat + ". Contoh : 12:10:00");
+    }
+  }
+
+  public static LocalDateTime convertToLocalDate(String date) {
+    return convertToLocalDate(date, DATE_FORMAT);
+  }
+  
+  public static LocalTime convertTime(String time) {
+    return convertTimeToLocalTime(time, TIME_FORMAT);
+  }
+
   public static String convertToString(LocalDateTime date) {
-    if (date != null) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-      return formatter.format(date);
-    }
-    return "";
+    return convertToString(date, DATE_FORMAT);
   }
 
-  /**
-   * Mengconvert LocalDate ke dalam bentuk string. Menggunakan custom format.
-   *
-   * @param date LocalDate, tidak boleh null.
-   * @return hasil format dalam bentuk String.
-   */
+  public static String convertDateToString(LocalDate date) {
+    return convertDateToString(date, FORMAT_OF_DATE);
+  }
+
+  public static String convertTimeToString(LocalTime time) {
+    return convertTimeToString(time, TIME_FORMAT);
+  }
+
+  public static String changeIDCountryCodeTo(String phoneNumber, String change) {
+    return phoneNumber.replace("+62", change);
+  }
+
   public static String convertToString(LocalDateTime date, String format) {
-    if (date != null) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-      return formatter.format(date);
+    Objects.requireNonNull(date, "Date can't be null");
+    if (format == null || format.isBlank()) {
+      throw new IllegalArgumentException("format date can't be null or blank");
     }
-    return "";
+    var formatter = DateTimeFormatter.ofPattern(format);
+    return formatter.format(date);
   }
 
-  /**
-   * Menambahkan waktu dari date.
-   *
-   * @param startTime Tanggal mulai.
-   * @param duration  Durasi
-   * @param unit      Durasi dalam
-   * @return
-   */
+  public static String convertDateToString(LocalDate date, String format) {
+    Objects.requireNonNull(date, "Date can't be null");
+    if (format == null || format.isBlank()) {
+      throw new IllegalArgumentException("format date can't be null or blank");
+    }
+    var formatter = DateTimeFormatter.ofPattern(format);
+    return formatter.format(date);
+  }
+
+  public static String convertTimeToString(LocalTime time, String format) {
+    Objects.requireNonNull(time, "Time can't be null");
+    if (format == null || format.isBlank()) {
+      throw new IllegalArgumentException("format time can't be null or blank");
+    }
+    var formatter = DateTimeFormatter.ofPattern(format);
+    return formatter.format(time);
+  }
+
   public static Date plusDateTime(Date startTime, long duration, ChronoUnit unit) {
     Instant start = startTime.toInstant();
     Instant result = start.plus(duration, unit);
     return Date.from(result);
   }
 
-  /**
-   * Mengurangi waktu dari date.
-   *
-   * @param startTime Tanggal mulai.
-   * @param duration  Durasi
-   * @param unit      Durasi dalam
-   * @return
-   */
   public static Date minusDateTime(Date startTime, long duration, ChronoUnit unit) {
     Instant start = startTime.toInstant();
     Instant result = start.minus(duration, unit);
     return Date.from(result);
   }
+
+  
+
 }

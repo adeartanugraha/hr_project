@@ -1,5 +1,6 @@
 package com.dimata.service.general.harisma.service;
 
+import com.dimata.service.general.harisma.entity.HrAssFormMain;
 import com.dimata.service.general.harisma.entity.HrAssFormSection;
 import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
@@ -36,18 +37,27 @@ public class HrAssFormSectionHandler {
     }
 
     public HrAssFormSectionBody createFormSection(HrAssFormSectionBody body) {
-        var hrAssFormSection = saveNewFormSection(body);
+        if (body.getIdAssFormMain() == null) {
+            throw new FormatException(ExceptionCode.F_NV);
+        }
+        var formMain = fetchAssFormMain(body.getIdAssFormMain());
+        var hrAssFormSection = saveNewFormSection(body, formMain);
         return HrAssFormSectionBody.fromFormSection(hrAssFormSection);
     }
 
-    private HrAssFormSection saveNewFormSection(HrAssFormSectionBody body) {
+    private HrAssFormMain fetchAssFormMain(long formMainId) {
+        return (HrAssFormMain) HrAssFormMain.findByIdOptional(formMainId)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND));
+    }
+
+    private HrAssFormSection saveNewFormSection(HrAssFormSectionBody body, HrAssFormMain assFormMain) {
         var hrAssFormSection = new HrAssFormSection();
         hrAssFormSection.id = body.getIdHrAssFormSection();
         hrAssFormSection.section = body.getSection();
         hrAssFormSection.description = body.getDescription();
         hrAssFormSection.sectionL2 = body.getSectionL2();
         hrAssFormSection.descriptionL2 = body.getDescriptionL2();
-        hrAssFormSection.idAssFormMain = body.getIdAssFormMain();
+        hrAssFormSection.idAssFormMain = assFormMain;
         hrAssFormSection.orderNumber = body.getOrderNumber();
         hrAssFormSection.typeSection = body.getTypeSection();
         hrAssFormSection.page = body.getPage();

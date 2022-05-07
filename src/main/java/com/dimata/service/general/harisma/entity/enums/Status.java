@@ -1,5 +1,5 @@
 package com.dimata.service.general.harisma.entity.enums;
 
-public enum HrAppGroupStatus {
+public enum Status {
     DEACTIVATE, ACTIVE
 }

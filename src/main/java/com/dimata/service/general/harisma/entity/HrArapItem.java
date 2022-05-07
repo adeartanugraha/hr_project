@@ -17,8 +17,10 @@ public class HrArapItem extends PanacheEntityBase {
     @Column(name = "arap_item_id")
     public Long id;
 
-    @Column(name = "arap_main_id")
-    public Long idArapMain;
+//    @Column(name = "arap_main_id")
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "arap_main_id")
+    public HrArapMain idArapMain;
 
     @Column(name = "angsuran")
     public Double angsuran;
@@ -36,13 +38,13 @@ public class HrArapItem extends PanacheEntityBase {
     public Double rate;
 
     @Column(name = "receive_aktiva_id")
-    public Long idReceiveAktiva;
+    public Long idReceiveAktiva = Long.valueOf(0);
 
     @Column(name = "selling_aktiva_id")
-    public Long idSellingAktiva;
+    public Long idSellingAktiva = Long.valueOf(0);
 
     @Column(name = "currency_id")
-    public Long idCurrency;
+    public Long idCurrency = Long.valueOf(0);
 
     @Column(name = "arap_item_status")
     public Integer arapItemStatus;

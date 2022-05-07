@@ -1,6 +1,6 @@
 package com.dimata.service.general.harisma.entity;
 
-import com.dimata.service.general.harisma.entity.enums.HrAppGroupStatus;
+import com.dimata.service.general.harisma.entity.enums.Status;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,9 +19,11 @@ public class HrArapPayment extends PanacheEntityBase {
     @Column(name = "arap_payment_id")
     public Long id;
 
-    @Column(name = "arap_main_id")
-    @NotNull
-    public Long idArapMain;
+//    @Column(name = "arap_main_id")
+//    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "arap_main_id")
+    public HrArapMain idArapMain;
 
     @Column(name = "payment_no")
     public String paymentNo;
@@ -31,11 +33,11 @@ public class HrArapPayment extends PanacheEntityBase {
 
     @Column(name = "id_perkiraan_payment")
     @NotNull
-    public Long idPerkiraanPayment;
+    public Long idPerkiraanPayment = Long.valueOf(0);
 
     @Column(name = "id_currency")
     @NotNull
-    public Long idCurrency;
+    public Long idCurrency = Long.valueOf(0);
 
     @Column(name = "counter")
     @NotNull
@@ -49,20 +51,22 @@ public class HrArapPayment extends PanacheEntityBase {
 
     @Column(name = "selling_aktiva_id")
     @NotNull
-    public Long idSellingAktiva;
+    public Long idSellingAktiva = Long.valueOf(0);
 
     @Column(name = "receive_aktiva_id")
     @NotNull
-    public Long idReceiveAktiva;
+    public Long idReceiveAktiva = Long.valueOf(0);
 
     @Enumerated
     @Column(name = "arap_type")
     @NotNull
-    public HrAppGroupStatus arapType;
+    public Status arapType;
 
-    @Column(name = "contact_id")
-    @NotNull
-    public Long idContact;
+//    @Column(name = "contact_id")
+//    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "contact_id")
+    public ContactList idContact;
 
     @Column(name = "left_to_pay")
     public Double leftToPay;
@@ -70,7 +74,7 @@ public class HrArapPayment extends PanacheEntityBase {
     @Enumerated
     @Column(name = "payment_status")
     @NotNull
-    public HrAppGroupStatus paymentStatus;
+    public Status paymentStatus;
 
     @UpdateTimestamp
     @Column(name = "last_update")
@@ -78,17 +82,19 @@ public class HrArapPayment extends PanacheEntityBase {
     public LocalDateTime lastUpdate;
 
     @Column(name = "jurnal_id")
-    public Long idJurnal;
+    public Long idJurnal = Long.valueOf(0);
 
     @Column(name = "bo_payment_id")
-    public Long idBoPaymnet;
+    public Long idBoPaymnet = Long.valueOf(0);
 
-    @Column(name = "employee_id")
-    public Long idEmployee;
+//    @Column(name = "employee_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    public EmployeeStart idEmployee;
 
     @Enumerated
     @Column(name = "payment_type")
-    public HrAppGroupStatus paymentType;
+    public Status paymentType;
 
     //---------------- ACTIVE RECORD
 

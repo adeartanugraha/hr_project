@@ -1,6 +1,6 @@
 package com.dimata.service.general.harisma.entity;
 
-import com.dimata.service.general.harisma.entity.enums.HrAppGroupStatus;
+import com.dimata.service.general.harisma.entity.enums.Status;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
 import org.hibernate.annotations.Type;
@@ -26,9 +26,12 @@ public class HrArapMain extends PanacheEntityBase {
     @Column(name = "voucher_date")
     public LocalDate voucherDate;
 
-    @Column(name = "contact_id")
-    @NotNull
-    public Long idContact;
+//    @Column(name = "contact_id")
+//    @NotNull
+//    public Long idContact;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "contact_id")
+    public ContactList idContact;
 
     @Column(name = "number_of_payment")
     @NotNull
@@ -36,15 +39,18 @@ public class HrArapMain extends PanacheEntityBase {
 
     @Column(name = "id_perkiraan_lawan")
     @NotNull
-    public Long idPerkiraanLawan;
+    public Long idPerkiraanLawan = Long.valueOf(0);
 
-    @Column(name = "id_perkiraan")
-    @NotNull
-    public Long idPerkiraan;
+//    @Column(name = "id_perkiraan")
+//    @NotNull
+//    public Long idPerkiraan;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_perkiraan")
+    public Perkiraan idPerkiraan;
 
     @Column(name = "id_currency")
     @NotNull
-    public Long idCurrency;
+    public Long idCurrency = Long.valueOf(0);
 
     @Column(name = "counter")
     public Integer counter;
@@ -83,24 +89,27 @@ public class HrArapMain extends PanacheEntityBase {
     public LocalDateTime lastUpdate;
 
     @Column(name = "jurnal_id")
-    public Long idJurnal;
+    public Long idJurnal = Long.valueOf(0);
 
     @Column(name = "component_deduction_id")
-    public Long idComponentDeduction;
+    public Long idComponentDeduction = Long.valueOf(0);
 
-    @Column(name = "employee_id")
-    public Long idEmployee;
+//    @Column(name = "employee_id")
+//    public Long idEmployee;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    public EmployeeStart idEmployee;
 
     @Column(name = "entry_date")
     public LocalDate entryDate;
 
     @Enumerated
     @Column(name = "period_every")
-    public HrAppGroupStatus periodEvery;
+    public Status periodEvery;
 
     @Enumerated
     @Column(name = "period_every_dmy")
-    public HrAppGroupStatus periodEveryDmy;
+    public Status periodEveryDmy;
 
     @Column(name = "start_of_payment_date")
     public LocalDate startOfPaymentDate;
@@ -110,10 +119,10 @@ public class HrArapMain extends PanacheEntityBase {
 
     @Enumerated
     @Column(name = "PERIOD_TYPE")
-    public HrAppGroupStatus periodType;
+    public Status periodType;
 
     @Column(name = "PERIOD_ID")
-    public Long idPeriod;
+    public Long idPeriod = Long.valueOf(0);
 
     //---------------- ACTIVE RECORD
 

@@ -2,7 +2,13 @@ package com.dimata.service.general.harisma.model.body;
 
 import static com.dimata.service.general.harisma.core.util.ManipulateUtil.changeItOrNot;
 
+import com.dimata.service.general.harisma.core.util.jackson.DateDeserialize;
+import com.dimata.service.general.harisma.core.util.jackson.DateSerialize;
+import com.dimata.service.general.harisma.core.util.jackson.TimeDeserialize;
+import com.dimata.service.general.harisma.core.util.jackson.TimeSerialize;
 import com.dimata.service.general.harisma.entity.HrAppMain;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -14,40 +20,88 @@ public class HrAppMainBody {
     private Long idEmployee;
     private Long idEmpPosition;
     private Long idEmpDepartment;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dateAssumedPosition;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dateJoinedHotel;
     private Long idAssessor;
     private Long idAssPosition;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dateOfAssessment;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dateOfLastAssessment;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dateOfNextAssessment;
     private Long idLevel;
     private Integer totalAss;
     private Double totalScore;
     private Double scoreAverage;
     private Long divisionHead;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate empSignDate;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate assSignDate;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate divSignDate;
     private Long idApproval1;
+
+    @JsonSerialize(converter = TimeSerialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime timeApproval1;
     private Long idApproval2;
+
+    @JsonSerialize(converter = TimeSerialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime timeApproval2;
     private Long idApproval3;
+
+    @JsonSerialize(converter = TimeSerialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime timeApproval3;
     private Long idApproval4;
+
+    @JsonSerialize(converter = TimeSerialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime timeApproval4;
     private Long idApproval5;
+
+    @JsonSerialize(converter = TimeSerialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime timeApproval5;
     private Long idApproval6;
+
+    @JsonSerialize(converter = TimeSerialize.class)
+    @JsonDeserialize(converter = TimeDeserialize.class)
     private LocalDateTime timeApproval6;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dataPeriodForm;
+
+    @JsonSerialize(converter = DateSerialize.class)
+    @JsonDeserialize(converter = DateDeserialize.class)
     private LocalDate dataPeriodTo;
 
     public static HrAppMainBody formHrMain(HrAppMain ent) {
         var output = new HrAppMainBody();
         output.setHrAppMainId(ent.id);
-        output.setIdEmployee(ent.employeeId);
+        output.setIdEmployee(ent.employeeId.id);
         output.setIdEmpPosition(ent.empPositionId);
         output.setIdEmpDepartment(ent.empDepartmentId);
         output.setDateAssumedPosition(ent.dateAssumedPosition);
@@ -83,7 +137,7 @@ public class HrAppMainBody {
     }
 
     public HrAppMain updateAppMain(HrAppMain appMain) {
-        appMain.employeeId = changeItOrNot(idEmployee, appMain.employeeId);
+        appMain.employeeId.id = changeItOrNot(idEmployee, appMain.employeeId.id);
         appMain.empPositionId = changeItOrNot(idEmpPosition, appMain.empPositionId);
         appMain.empDepartmentId = changeItOrNot(idEmpDepartment, appMain.empDepartmentId);
         appMain.dateAssumedPosition = changeItOrNot(dateAssumedPosition, appMain.dateAssumedPosition);

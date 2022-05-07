@@ -6,13 +6,15 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
-@Entity
+//@Entity
 @Table(name = "hr_ass_form_main_detail")
 public class HrAssFormMainDetail extends PanacheEntityBase {
-    @Id
-    @GeneratedValue(generator = "dimata_id_gen")
-    @Column(name = "ASS_FORM_MAIN_ID")
-    public Long id;
+//    @Id
+//    @GeneratedValue(generator = "dimata_id_gen")
+//    @Column(name = "ASS_FORM_MAIN_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ASS_FORM_MAIN_ID")
+    public HrAssFormMain id;
 
     @Column(name = "GROUP_RANK_ID")
     public Long idGroupRank;

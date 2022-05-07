@@ -1,8 +1,10 @@
 package com.dimata.service.general.harisma.service;
 
 import com.dimata.service.general.harisma.entity.HrArapItem;
+import com.dimata.service.general.harisma.entity.HrArapMain;
 import com.dimata.service.general.harisma.exception.DataNotFoundException;
 import com.dimata.service.general.harisma.exception.ExceptionCode;
+import com.dimata.service.general.harisma.exception.FormatException;
 import com.dimata.service.general.harisma.model.body.HrArapItemBody;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -35,14 +37,23 @@ public class HrArapItemHandler {
     }
 
     public HrArapItemBody createArapItem(HrArapItemBody body) {
-        var hrArapItem = saveNewItem(body);
+        if (body.getIdArapMain() == null) {
+            throw new FormatException(ExceptionCode.F_NV);
+        }
+        var arapMain = fetchArapMain(body.getIdArapMain());
+        var hrArapItem = saveNewItem(body, arapMain);
         return HrArapItemBody.formArapItem(hrArapItem);
     }
 
-    private HrArapItem saveNewItem(HrArapItemBody body) {
+    private HrArapMain fetchArapMain(long arapMainId) {
+        return (HrArapMain) HrArapMain.findByIdOptional(arapMainId)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.DATA_NOT_FOUND));
+    }
+
+    private HrArapItem saveNewItem(HrArapItemBody body, HrArapMain arapMain) {
         var hrAppItem = new HrArapItem();
         hrAppItem.id = body.getIdHrArapItem();
-        hrAppItem.idArapMain = body.getIdArapMain();
+        hrAppItem.idArapMain = arapMain;
         hrAppItem.angsuran = body.getAngsuran();
         hrAppItem.dueDate = body.getDueDate();
         hrAppItem.description = body.getDescription();

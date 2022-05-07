@@ -2,7 +2,9 @@ package com.dimata.service.general.harisma.model.body;
 
 import static com.dimata.service.general.harisma.core.util.ManipulateUtil.changeItOrNot;
 
+import com.dimata.service.general.harisma.entity.HrAppMain;
 import com.dimata.service.general.harisma.entity.HrAppraisal;
+import com.dimata.service.general.harisma.entity.HrAssFormItem;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -33,8 +35,8 @@ public class HrAppraisalBody {
         output.setEmpComment(ent.empComment);
         output.setAssComment(ent.assComment);
         output.setRating(ent.rating);
-        output.setHrAppMainId(ent.hrAppMain);
-        output.setAssFormItemId(ent.hrAssFormItem);
+        output.setHrAppMainId(ent.hrAppMain.id);
+        output.setAssFormItemId(ent.hrAssFormItem.id);
         output.setAnswer1(ent.answer1);
         output.setAnswer2(ent.answer2);
         output.setAnswer3(ent.answer3);
@@ -53,8 +55,8 @@ public class HrAppraisalBody {
         appraisal.empComment = changeItOrNot(empComment, appraisal.empComment);
         appraisal.assComment = changeItOrNot(assComment, appraisal.assComment);
         appraisal.rating = changeItOrNot(rating, appraisal.rating);
-        appraisal.hrAppMain = changeItOrNot(hrAppMainId, appraisal.hrAppMain);
-        appraisal.hrAssFormItem = changeItOrNot(assFormItemId, appraisal.hrAssFormItem);
+        appraisal.hrAppMain.id = changeItOrNot(hrAppMainId, appraisal.hrAppMain.id);
+        appraisal.hrAssFormItem.id = changeItOrNot(assFormItemId, appraisal.hrAssFormItem.id);
         appraisal.answer1 = changeItOrNot(answer1, appraisal.answer1);
         appraisal.answer2 = changeItOrNot(answer2, appraisal.answer2);
         appraisal.answer3 = changeItOrNot(answer3, appraisal.answer3);

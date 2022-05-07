@@ -1,6 +1,6 @@
 package com.dimata.service.general.harisma.entity;
 
-import com.dimata.service.general.harisma.entity.enums.HrAppGroupStatus;
+import com.dimata.service.general.harisma.entity.enums.Status;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,8 +31,7 @@ public class HrAppGroup extends PanacheEntityBase {
 
     @Enumerated
     @Column(name = "STATUS")
-//    @NotBlank
-    public HrAppGroupStatus status;
+    public Status status;
 
     @Column(name = "DESCRIPTION")
     @Type(type = "text")
